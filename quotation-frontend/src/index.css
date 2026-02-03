@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  background-color: #f4f6f9;
+  color: #0f172a;
+}
+
+.ui-spinner {
+  display: inline-block;
+  border-radius: 9999px;
+  border: 3px solid rgba(15, 23, 42, 0.12);
+  border-top-color: rgba(15, 23, 42, 0.9);
+  animation: spinnerSpin 0.8s linear infinite;
+}
+
+@keyframes spinnerSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.card-surface {
+  background: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
+}

@@ -1,0 +1,6 @@
+USE quotation_system;
+
+ALTER TABLE jobs
+  ADD COLUMN zone VARCHAR(50) NULL,
+  ADD COLUMN distance VARCHAR(100) NULL,
+  ADD COLUMN pipe_size VARCHAR(100) NULL;

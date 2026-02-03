@@ -1,0 +1,30 @@
+CREATE DATABASE IF NOT EXISTS quotation;
+USE quotation;
+
+CREATE TABLE IF NOT EXISTS users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(190) NOT NULL UNIQUE,
+  password_hash VARCHAR(255) NOT NULL,
+  role ENUM('admin', 'technician') NOT NULL DEFAULT 'technician'
+);
+
+CREATE TABLE IF NOT EXISTS jobs (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  technician_name VARCHAR(150) NOT NULL,
+  zone VARCHAR(50) NOT NULL,
+  customer_name VARCHAR(150) NOT NULL,
+  distance VARCHAR(100) NOT NULL,
+  pipe_size VARCHAR(100) NOT NULL,
+  created_at DATETIME NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS job_items (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  job_id INT NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  qty DECIMAL(12,2) NOT NULL DEFAULT 0,
+  unit VARCHAR(50),
+  price_vat DECIMAL(12,2),
+  CONSTRAINT fk_job_items_job FOREIGN KEY (job_id) REFERENCES jobs(id) ON DELETE CASCADE
+);
