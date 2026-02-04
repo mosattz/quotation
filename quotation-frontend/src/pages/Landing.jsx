@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import LanguageToggle from "../components/LanguageToggle";
+import { useI18n } from "../i18n/i18n";
 
 function StepCard({ step, title, children }) {
   return (
@@ -26,92 +28,93 @@ function Tip({ title, children }) {
 }
 
 export default function Landing() {
+  const { t } = useI18n();
   return (
     <div className="min-h-screen w-screen bg-slate-100">
       <div className="flex min-h-screen flex-col px-5 py-8 md:px-8 lg:px-10 2xl:px-12">
         <div className="sticky top-0 z-40 -mx-5 bg-slate-100/90 px-5 pb-4 pt-4 backdrop-blur supports-[backdrop-filter]:bg-slate-100/75 md:-mx-8 md:px-8 lg:-mx-10 lg:px-10 2xl:-mx-12 2xl:px-12">
           <header className="flex items-center justify-between gap-4 rounded-3xl border border-slate-200 bg-white px-4 py-4 shadow-sm sm:px-6 sm:py-6">
             <div className="flex min-w-0 items-center gap-3">
-            <div className="h-12 w-12 shrink-0 overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-200">
-              <img
-                src="/images/logo-q.png"
-                alt="Quotation System"
-                className="h-full w-full object-contain p-0 scale-175 origin-center drop-shadow-sm"
-                loading="eager"
-              />
-            </div>
+              <div className="h-12 w-12 shrink-0 overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-200">
+                <img
+                  src="/images/logo-q.png"
+                  alt={t("auth.loginTitle")}
+                  className="h-full w-full object-contain p-0 scale-175 origin-center drop-shadow-sm"
+                  loading="eager"
+                />
+              </div>
               <div className="min-w-0">
                 <div className="truncate text-sm font-semibold text-slate-900">
-                  Quotation System
+                  {t("auth.loginTitle")}
                 </div>
                 <div className="truncate text-[11px] text-slate-500 sm:text-xs">
-                  Technician orders • Admin review • PDF / Excel quotations
+                  {t("landing.tagline")}
                 </div>
               </div>
             </div>
             <div className="flex shrink-0 items-center gap-2">
+              <div className="hidden sm:block">
+                <LanguageToggle />
+              </div>
               <Link
                 to="/login"
                 className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 sm:px-4 sm:text-sm"
               >
-                Login
+                {t("common.login")}
               </Link>
               <Link
                 to="/register"
                 className="rounded-xl bg-emerald-700 px-3 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-emerald-800 sm:px-4 sm:text-sm"
               >
-                Register Technician
+                {t("common.registerTechnician")}
               </Link>
             </div>
           </header>
+          <div className="mt-3 sm:hidden">
+            <LanguageToggle compact />
+          </div>
         </div>
 
         <section className="mt-8 grid gap-6 lg:grid-cols-2">
           <div className="rounded-3xl bg-gradient-to-br from-emerald-700 via-emerald-700 to-slate-900 px-7 py-8 text-white shadow-lg">
             <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold tracking-wide">
-              Quick Guide
+              {t("landing.quickGuide")}
             </div>
             <h1 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
-              Submit orders correctly the first time.
+              {t("landing.heroTitle")}
             </h1>
             <p className="mt-4 max-w-xl text-sm leading-relaxed text-white/85">
-              Technicians collect customer requirements in the field. The system
-              automatically finds item prices from the catalog and produces a
-              clean quotation with totals and charges.
+              {t("landing.heroBody")}
             </p>
             <div className="mt-6 grid gap-3 sm:grid-cols-2">
               <div className="rounded-2xl bg-white/10 px-4 py-3">
                 <div className="text-xs font-semibold text-white/70">
-                  Required
+                  {t("landing.requiredLabel")}
                 </div>
                 <div className="mt-1 text-sm font-semibold">
-                  Customer, zone, distance, pipe size, items
+                  {t("landing.requiredValue")}
                 </div>
               </div>
               <div className="rounded-2xl bg-white/10 px-4 py-3">
                 <div className="text-xs font-semibold text-white/70">
-                  Best practice
+                  {t("landing.bestPracticeLabel")}
                 </div>
                 <div className="mt-1 text-sm font-semibold">
-                  Use autocomplete for item names
+                  {t("landing.bestPracticeValue")}
                 </div>
               </div>
             </div>
           </div>
 
           <div className="grid gap-4">
-            <StepCard step="1" title="Enter customer + location details">
-              Use the customer name (or company name), select the correct zone,
-              and enter distance and main pipe size as numbers.
+            <StepCard step="1" title={t("landing.step1Title")}>
+              {t("landing.step1Body")}
             </StepCard>
-            <StepCard step="2" title="Add items with correct unit + quantity">
-              Add each requested item. Always select the correct unit (PC, M,
-              BOX, etc.) and quantity.
+            <StepCard step="2" title={t("landing.step2Title")}>
+              {t("landing.step2Body")}
             </StepCard>
-            <StepCard step="3" title="Type item names carefully (recommended)">
-              Start typing and choose from the suggestions. This improves price
-              matching accuracy (avoid extra words; include the size like
-              2'' x 2'' when needed).
+            <StepCard step="3" title={t("landing.step3Title")}>
+              {t("landing.step3Body")}
             </StepCard>
           </div>
         </section>
@@ -119,69 +122,52 @@ export default function Landing() {
         <section className="mt-10">
           <div className="mb-4">
             <h2 className="text-lg font-semibold text-slate-900">
-              Technician tips for accurate matching
+              {t("landing.tipsTitle")}
             </h2>
             <p className="mt-1 text-sm text-slate-500">
-              Small typing differences can change price matching. Use these rules
-              to get accurate quotations.
+              {t("landing.tipsSubtitle")}
             </p>
           </div>
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            <Tip title="Use autocomplete">
-              Start typing the item name and select from the dropdown. This
-              matches the catalog exactly and prevents 0.00 rates.
+            <Tip title={t("landing.tipAutocompleteTitle")}>
+              {t("landing.tipAutocompleteBody")}
             </Tip>
-            <Tip title="Include size information">
-              If the item has sizes (example: 2'' x 2''), include them in the
-              name exactly. The system uses size tokens to choose the correct
-              catalog entry.
+            <Tip title={t("landing.tipSizeTitle")}>{t("landing.tipSizeBody")}</Tip>
+            <Tip title={t("landing.tipUnitTitle")}>{t("landing.tipUnitBody")}</Tip>
+            <Tip title={t("landing.tipExtraWordsTitle")}>
+              {t("landing.tipExtraWordsBody")}
             </Tip>
-            <Tip title="Pick the correct unit">
-              Always select the right unit (PC, M, %, BOX). Wrong units can
-              create confusion and incorrect quotations.
-            </Tip>
-            <Tip title="Avoid extra words">
-              Don’t add unnecessary words. Example: write “Seal tape” (then pick
-              from suggestions) instead of long descriptions.
-            </Tip>
-            <Tip title="Double-check before submitting">
-              Review items, quantities, distance, and pipe size before submit.
-              Admin exports use this data directly.
-            </Tip>
-            <Tip title="If unsure, search then select">
-              Type 2–3 keywords (e.g., “tee connector 2”) and pick the closest
-              suggestion from the list.
-            </Tip>
+            <Tip title={t("landing.tipReviewTitle")}>{t("landing.tipReviewBody")}</Tip>
+            <Tip title={t("landing.tipSearchTitle")}>{t("landing.tipSearchBody")}</Tip>
           </div>
         </section>
 
         <section className="mt-10 grid gap-4 md:grid-cols-2">
           <div className="card-surface rounded-2xl p-6">
             <h3 className="text-sm font-semibold text-slate-900">
-              Zones (dropdown)
+              {t("landing.zonesTitle")}
             </h3>
             <p className="mt-2 text-sm text-slate-600">
-              CHALINZE, MDAULA, MSOGA, LUGOBA, MSATA, KIWANGWA, MBWEWE, MIONO
+              {t("landing.zonesValue")}
             </p>
           </div>
           <div className="card-surface rounded-2xl p-6">
-            <h3 className="text-sm font-semibold text-slate-900">Next</h3>
+            <h3 className="text-sm font-semibold text-slate-900">{t("landing.nextTitle")}</h3>
             <p className="mt-2 text-sm text-slate-600">
-              Login as Admin to review orders and download PDF/Excel quotations,
-              or register technicians to start submitting orders.
+              {t("landing.nextBody")}
             </p>
             <div className="mt-4 flex flex-col gap-2 sm:flex-row">
               <Link
                 to="/login"
                 className="rounded-xl bg-emerald-700 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-800"
               >
-                Go to Login
+                {t("landing.goToLogin")}
               </Link>
               <Link
                 to="/register"
                 className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
               >
-                Register Technician
+                {t("common.registerTechnician")}
               </Link>
             </div>
           </div>

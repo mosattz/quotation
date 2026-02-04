@@ -2,9 +2,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiPost } from "../api/api";
 import { setAuth } from "../utils/auth";
+import LanguageToggle from "../components/LanguageToggle";
+import { useI18n } from "../i18n/i18n";
 
 export default function Register() {
   const navigate = useNavigate();
+  const { t } = useI18n();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,7 +31,7 @@ export default function Register() {
       setAuth(data);
       navigate("/technician");
     } catch (err) {
-      setError("Registration failed. Try another email.");
+      setError(t("auth.registrationFailed"));
     } finally {
       setLoading(false);
     }
@@ -40,16 +43,19 @@ export default function Register() {
         onSubmit={handleSubmit}
         className="card-surface w-full max-w-md rounded-2xl p-8"
       >
+        <div className="mb-4 flex items-center justify-end">
+          <LanguageToggle />
+        </div>
         <h2 className="text-2xl font-bold mb-2 text-center">
-          Technician Registration
+          {t("auth.registerTitle")}
         </h2>
         <p className="mb-6 text-center text-sm text-slate-500">
-          Create your account to submit orders
+          {t("auth.registerSubtitle")}
         </p>
 
         <input
           type="text"
-          placeholder="Full name"
+          placeholder={t("auth.fullName")}
           className="w-full border border-slate-200 p-3 mb-4 rounded-lg"
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -57,7 +63,7 @@ export default function Register() {
 
         <input
           type="email"
-          placeholder="Email"
+          placeholder={t("auth.email")}
           className="w-full border border-slate-200 p-3 mb-4 rounded-lg"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -65,7 +71,7 @@ export default function Register() {
 
         <input
           type="tel"
-          placeholder="Phone"
+          placeholder={t("auth.phone")}
           className="w-full border border-slate-200 p-3 mb-4 rounded-lg"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
@@ -76,7 +82,7 @@ export default function Register() {
           value={zone}
           onChange={(e) => setZone(e.target.value)}
         >
-          <option value="">Select zone</option>
+          <option value="">{t("auth.selectZone")}</option>
           <option>CHALINZE</option>
           <option>LUGOBA</option>
           <option>MSOGA</option>
@@ -89,7 +95,7 @@ export default function Register() {
 
         <input
           type="password"
-          placeholder="Password"
+          placeholder={t("auth.password")}
           className="w-full border border-slate-200 p-3 mb-2 rounded-lg"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -102,7 +108,7 @@ export default function Register() {
           disabled={loading}
           className="w-full rounded-lg bg-emerald-700 p-3 text-white transition hover:bg-emerald-800 disabled:opacity-60"
         >
-          {loading ? "Creating account..." : "Register"}
+          {loading ? t("auth.creatingAccount") : t("auth.register")}
         </button>
       </form>
     </div>

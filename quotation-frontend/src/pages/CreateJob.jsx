@@ -2,13 +2,16 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ProductRow from "../components/ProductRow";
 import Spinner from "../components/Spinner";
+import LanguageToggle from "../components/LanguageToggle";
 import { apiGet, apiPost } from "../api/api";
 import { clearAuth } from "../utils/auth";
+import { useI18n } from "../i18n/i18n";
 
 const RECENT_KEY = "quotation_recent_items";
 
 export default function CreateJob() {
   const navigate = useNavigate();
+  const { t } = useI18n();
   const [items, setItems] = useState([]);
   const isAdmin = false;
   const [form, setForm] = useState({
@@ -69,16 +72,16 @@ export default function CreateJob() {
       !form.pipeSizeValue ||
       !form.pipeSizeUnit
     ) {
-      return "Please fill all required fields.";
+      return t("tech.validationRequired");
     }
     if (
       Number.isNaN(Number(form.distanceValue)) ||
       Number.isNaN(Number(form.pipeSizeValue))
     ) {
-      return "Distance and pipe size must be numeric.";
+      return t("tech.validationNumeric");
     }
     if (!items.length) {
-      return "Please add at least one item.";
+      return t("tech.validationItems");
     }
     const invalid = items.find(
       (item) =>
@@ -87,7 +90,7 @@ export default function CreateJob() {
         !Number(item.qty || 0)
     );
     if (invalid) {
-      return "Each item must have name, unit, and quantity.";
+      return t("tech.validationItemFields");
     }
     return "";
   };
@@ -112,9 +115,9 @@ export default function CreateJob() {
         items,
       });
       items.forEach((entry) => addRecent(entry));
-      setStatus({ type: "success", message: "Order submitted." });
+      setStatus({ type: "success", message: t("tech.statusSuccess") });
     } catch (error) {
-      setStatus({ type: "error", message: "Failed to submit order." });
+      setStatus({ type: "error", message: t("tech.statusFail") });
     } finally {
       setSubmitting(false);
     }
@@ -126,11 +129,14 @@ export default function CreateJob() {
         <aside className="sticky top-0 z-40 w-full border-b border-slate-200 bg-white/95 px-6 py-6 backdrop-blur supports-[backdrop-filter]:bg-white/80 md:w-64 md:border-b-0 md:border-r md:px-5 md:py-8 md:backdrop-blur-none md:supports-[backdrop-filter]:bg-white">
           <div className="mb-8">
             <h1 className="text-lg font-semibold text-slate-900">
-              Technician Dashboard
+              {t("tech.title")}
             </h1>
             <p className="mt-1 text-xs text-slate-500">
-              Submit customer orders from the field.
+              {t("tech.subtitle")}
             </p>
+            <div className="mt-4">
+              <LanguageToggle compact />
+            </div>
           </div>
           <div className="flex flex-row gap-2 md:flex-col">
             <button
@@ -140,14 +146,14 @@ export default function CreateJob() {
             >
               <span className="inline-flex items-center gap-2">
                 {submitting && <Spinner size={14} />}
-                Submit
+                {t("common.submit")}
               </span>
             </button>
             <button
               onClick={handleLogout}
               className="flex-1 rounded-lg border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 md:w-full md:text-left"
             >
-              Logout
+              {t("common.logout")}
             </button>
           </div>
         </aside>
@@ -155,10 +161,10 @@ export default function CreateJob() {
         <main className="flex min-h-screen flex-1 flex-col px-6 py-8">
           <div className="mb-6">
             <h2 className="text-2xl font-semibold text-slate-900">
-              Order Details
+              {t("tech.orderDetails")}
             </h2>
             <p className="mt-1 text-sm text-slate-500">
-              Fill out customer information and requested items.
+              {t("tech.orderDetailsSub")}
             </p>
           </div>
           {status.message && (
@@ -177,14 +183,14 @@ export default function CreateJob() {
         <div className="mb-8 space-y-4">
             <div className="card-surface rounded-xl px-4 py-4">
               <label className="text-xs font-semibold uppercase tracking-wide text-slate-700">
-                ZONE<span className="text-rose-500"> *</span>
+                {t("tech.zoneLabel")}<span className="text-rose-500"> *</span>
               </label>
               <select
                 className="mt-3 w-full max-w-[220px] rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 shadow-sm outline-none transition focus:border-slate-900"
                 value={form.zone}
                 onChange={(e) => updateForm("zone", e.target.value)}
               >
-                <option value="">Choose</option>
+                <option value="">{t("tech.choose")}</option>
                 <option>CHALINZE</option>
                 <option>LUGOBA</option>
                 <option>MSOGA</option>
@@ -198,7 +204,7 @@ export default function CreateJob() {
 
             <div className="card-surface rounded-xl px-4 py-4">
               <label className="text-xs font-semibold uppercase tracking-wide text-slate-700">
-                JINA LA MTEJA<span className="text-rose-500"> *</span>
+                {t("tech.customerLabel")}<span className="text-rose-500"> *</span>
               </label>
               <input
                 className="mt-3 w-full border-b border-slate-200 bg-transparent pb-2 text-sm text-slate-800 outline-none transition focus:border-slate-900"
@@ -210,13 +216,13 @@ export default function CreateJob() {
 
             <div className="card-surface rounded-xl px-4 py-4">
               <label className="text-xs font-semibold uppercase tracking-wide text-slate-700">
-                UMBALI TOKA BOMBA KUBWA<span className="text-rose-500"> *</span>
+                {t("tech.distanceLabel")}<span className="text-rose-500"> *</span>
               </label>
               <div className="mt-3 flex items-center gap-3">
                 <input
                   inputMode="decimal"
                   className="w-full border-b border-slate-200 bg-transparent pb-2 text-sm text-slate-800 outline-none transition focus:border-slate-900"
-                  placeholder="Enter number"
+                  placeholder={t("tech.enterNumber")}
                   value={form.distanceValue}
                   onChange={(e) => updateForm("distanceValue", e.target.value)}
                 />
@@ -235,13 +241,13 @@ export default function CreateJob() {
 
             <div className="card-surface rounded-xl px-4 py-4">
               <label className="text-xs font-semibold uppercase tracking-wide text-slate-700">
-                SIZE YA BOMBA KUBWA<span className="text-rose-500"> *</span>
+                {t("tech.pipeSizeLabel")}<span className="text-rose-500"> *</span>
               </label>
               <div className="mt-3 flex items-center gap-3">
                 <input
                   inputMode="decimal"
                   className="w-full border-b border-slate-200 bg-transparent pb-2 text-sm text-slate-800 outline-none transition focus:border-slate-900"
-                  placeholder="Enter number"
+                  placeholder={t("tech.enterNumber")}
                   value={form.pipeSizeValue}
                   onChange={(e) => updateForm("pipeSizeValue", e.target.value)}
                 />
@@ -263,13 +269,13 @@ export default function CreateJob() {
         <div className="card-surface overflow-hidden rounded-2xl">
           <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4">
             <h2 className="text-sm font-semibold text-slate-700">
-              Orodha ya Vifaa vya Mteja
+              {t("tech.itemsTitle")}
             </h2>
             <button
               onClick={addItem}
               className="rounded-lg bg-emerald-700 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-emerald-800"
             >
-              + Add Item
+              {t("tech.addItem")}
             </button>
           </div>
         <div className="overflow-x-auto">
@@ -298,7 +304,7 @@ export default function CreateJob() {
                       colSpan={isAdmin ? 4 : 3}
                       className="px-6 py-10 text-center text-sm text-slate-500"
                     >
-                      No items yet. Click “Add Item” to get started.
+                      {t("tech.noItems")}
                     </td>
                   </tr>
                 )}
@@ -326,10 +332,10 @@ export default function CreateJob() {
         <div className="mt-8 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
           <div className="card-surface rounded-2xl p-6 text-sm text-slate-600 lg:max-w-md">
             <h3 className="mb-2 text-sm font-semibold text-slate-700">
-              Notes
+              {t("tech.notesTitle")}
             </h3>
             <p>
-              Add all required items for the job before submitting.
+              {t("tech.notesBody")}
             </p>
           </div>
         </div>

@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../components/Spinner";
+import LanguageToggle from "../components/LanguageToggle";
 import { apiDelete, apiGet, apiPut } from "../api/api";
 import { clearAuth } from "../utils/auth";
+import { useI18n } from "../i18n/i18n";
 import {
   exportAllOrdersToExcel,
   exportAllOrdersToPdf,
@@ -12,6 +14,7 @@ import {
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const { t } = useI18n();
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState("orders");
@@ -269,11 +272,14 @@ export default function Dashboard() {
         <aside className="sticky top-0 z-40 w-full border-b border-slate-200 bg-white/95 px-6 py-6 backdrop-blur supports-[backdrop-filter]:bg-white/80 md:w-64 md:border-b-0 md:border-r md:px-5 md:py-8 md:backdrop-blur-none md:supports-[backdrop-filter]:bg-white">
           <div className="mb-8">
             <h1 className="text-lg font-semibold text-slate-900">
-              Admin Dashboard
+              {t("admin.title")}
             </h1>
             <p className="mt-1 text-xs text-slate-500">
-              Review submitted orders and technician activity.
+              {t("admin.subtitle")}
             </p>
+            <div className="mt-4">
+              <LanguageToggle compact />
+            </div>
           </div>
           <nav className="flex flex-row gap-2 md:flex-col">
             <button
@@ -287,7 +293,7 @@ export default function Dashboard() {
                   : "bg-slate-100 text-slate-700 hover:bg-slate-200"
               }`}
             >
-              Orders Details
+              {t("admin.ordersTab")}
             </button>
             <button
               onClick={() => setTab("technicians")}
@@ -297,13 +303,13 @@ export default function Dashboard() {
                   : "bg-slate-100 text-slate-700 hover:bg-slate-200"
               }`}
             >
-              Technicians
+              {t("admin.techTab")}
             </button>
             <button
               onClick={handleLogout}
               className="flex-1 rounded-lg border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 md:w-full md:text-left"
             >
-              Logout
+              {t("common.logout")}
             </button>
           </nav>
         </aside>
@@ -311,12 +317,12 @@ export default function Dashboard() {
         <main className="flex min-h-screen flex-1 flex-col px-6 py-8">
           <div className="mb-6">
             <h2 className="text-2xl font-semibold text-slate-900">
-              {tab === "orders" ? "Orders Details" : "Technicians"}
+              {tab === "orders" ? t("admin.ordersTab") : t("admin.techTab")}
             </h2>
             <p className="mt-1 text-sm text-slate-500">
               {tab === "orders"
-                ? "Review submitted orders and pricing breakdowns."
-                : "Manage technician accounts and submitted orders."}
+                ? t("admin.subtitle")
+                : t("admin.subtitle")}
             </p>
           </div>
 
@@ -324,7 +330,7 @@ export default function Dashboard() {
           <div className="mb-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             <div className="card-surface rounded-2xl p-5">
               <p className="text-xs uppercase tracking-wide text-slate-500">
-                Total Orders
+                {t("admin.totalOrders")}
               </p>
               <p className="mt-2 text-2xl font-semibold text-slate-900">
                 {totals.jobs}
@@ -332,7 +338,7 @@ export default function Dashboard() {
             </div>
             <div className="card-surface rounded-2xl p-5">
               <p className="text-xs uppercase tracking-wide text-slate-500">
-                Total Items
+                {t("admin.totalItems")}
               </p>
               <p className="mt-2 text-2xl font-semibold text-slate-900">
                 {totals.items}
@@ -340,12 +346,12 @@ export default function Dashboard() {
             </div>
             <div className="card-surface rounded-2xl p-5">
               <p className="text-xs uppercase tracking-wide text-slate-500">
-                Latest Update
+                {t("admin.latestUpdate")}
               </p>
               <p className="mt-2 text-sm font-medium text-slate-700">
                 {jobs[0]?.created_at
                   ? new Date(jobs[0].created_at).toLocaleString()
-                  : "No submissions yet"}
+                  : t("admin.noSubmissions")}
               </p>
             </div>
           </div>
@@ -356,11 +362,11 @@ export default function Dashboard() {
             <div className="grid gap-4 lg:grid-cols-6">
               <div className="lg:col-span-2">
                 <label className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
-                  Customer
+                  {t("admin.filterCustomer")}
                 </label>
                 <input
                   className="mt-2 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800"
-                  placeholder="Search customer name"
+                  placeholder={t("admin.filterCustomerPh")}
                   value={filters.customer}
                   onChange={(e) =>
                     setFilters((prev) => ({ ...prev, customer: e.target.value }))
@@ -369,7 +375,7 @@ export default function Dashboard() {
               </div>
               <div className="lg:col-span-2">
                 <label className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
-                  Technician
+                  {t("admin.filterTechnician")}
                 </label>
                 <select
                   className="mt-2 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800"
@@ -381,7 +387,7 @@ export default function Dashboard() {
                     }))
                   }
                 >
-                  <option value="">All technicians</option>
+                  <option value="">{t("admin.allTechnicians")}</option>
                   {technicians.map((tech) => (
                     <option key={tech.id} value={tech.id}>
                       {tech.name}
@@ -391,7 +397,7 @@ export default function Dashboard() {
               </div>
               <div>
                 <label className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
-                  Zone
+                  {t("admin.filterZone")}
                 </label>
                 <select
                   className="mt-2 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800"
@@ -400,7 +406,7 @@ export default function Dashboard() {
                     setFilters((prev) => ({ ...prev, zone: e.target.value }))
                   }
                 >
-                  <option value="">All zones</option>
+                  <option value="">{t("admin.allZones")}</option>
                   <option>CHALINZE</option>
                   <option>LUGOBA</option>
                   <option>MSOGA</option>
@@ -413,7 +419,7 @@ export default function Dashboard() {
               </div>
               <div>
                 <label className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
-                  Date range
+                  {t("admin.dateRange")}
                 </label>
                 <div className="mt-2 flex gap-2">
                   <input
@@ -449,7 +455,7 @@ export default function Dashboard() {
               >
                 <span className="inline-flex items-center gap-2">
                   {filterLoading && <Spinner size={12} />}
-                  Apply Filters
+                  {t("admin.applyFilters")}
                 </span>
               </button>
               <button
@@ -457,10 +463,10 @@ export default function Dashboard() {
                 disabled={filterLoading}
                 className="rounded-md border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
               >
-                Reset
+                {t("common.reset")}
               </button>
               <div className="text-xs text-slate-500">
-                {jobs.length} orders shown
+                {t("admin.ordersShown", { count: jobs.length })}
               </div>
             </div>
           </div>
@@ -470,7 +476,9 @@ export default function Dashboard() {
           <div className="border-b border-slate-200 px-6 py-4">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-sm font-semibold text-slate-700">
-                {tab === "orders" ? "Submitted Orders" : "Registered Technicians"}
+                {tab === "orders"
+                  ? t("admin.submittedOrders")
+                  : t("admin.registeredTechnicians")}
               </h2>
               {tab === "orders" && (
                 <div className="flex items-center gap-2">
@@ -485,7 +493,7 @@ export default function Dashboard() {
                     }
                     className="rounded-md border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
                   >
-                    Download Excel
+                    {t("admin.downloadExcel")}
                   </button>
                   <button
                     onClick={() =>
@@ -498,11 +506,11 @@ export default function Dashboard() {
                     }
                     className="rounded-md border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
                   >
-                    Download PDF
+                    {t("admin.downloadPdf")}
                   </button>
                   {hasFilters && (
                     <span className="text-[10px] font-semibold uppercase tracking-wide text-emerald-700">
-                      filtered
+                      {t("admin.filtered")}
                     </span>
                   )}
                 </div>
@@ -521,12 +529,12 @@ export default function Dashboard() {
                       />
                     </svg>
                   </div>
-                  No orders saved yet. Submit an order from Technician Dashboard.
+                  {t("admin.noOrders")}
                 </div>
               )}
               {loading && (
                 <div className="px-6 py-10 text-center text-sm text-slate-500">
-                  Loading orders...
+                  {t("admin.loadingOrders")}
                 </div>
               )}
               {jobs.map((job) => (
@@ -534,7 +542,7 @@ export default function Dashboard() {
                 <div className="mb-4 flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
                   <div>
                     <h3 className="text-base font-semibold text-slate-900">
-                      {job.customer_name || "Customer"}
+                      {job.customer_name || t("common.customer")}
                     </h3>
                     <p className="text-xs text-slate-500">
                       {job.created_at
@@ -543,8 +551,9 @@ export default function Dashboard() {
                     </p>
                   </div>
                   <div className="text-xs text-slate-500">
-                    Zone: {job.zone || "—"} • Distance: {job.distance || "—"} •
-                    Pipe: {job.pipe_size || "—"}
+                    {t("common.zone")}: {job.zone || "—"} • {t("common.distance")}:{" "}
+                    {job.distance || "—"} • {t("common.pipe")}:{" "}
+                    {job.pipe_size || "—"}
                   </div>
                   <div className="flex items-center gap-2">
                     <button
@@ -556,25 +565,25 @@ export default function Dashboard() {
                       }
                       className="rounded-md border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
                     >
-                      Excel
+                      {t("admin.excel")}
                     </button>
                     <button
                       onClick={() =>
                         exportOrderToPdf({
                           filename: `quotation-${job.id || "order"}`,
-                          title: `Order for ${job.customer_name || "Customer"}`,
+                          title: t("admin.orderFor", { name: job.customer_name || t("common.customer") }),
                           order: job,
                         })
                       }
                       className="rounded-md border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
                     >
-                      PDF
+                      {t("admin.pdf")}
                     </button>
                     <button
                       onClick={() => openEdit(job)}
                       className="rounded-md border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
                     >
-                      Edit
+                      {t("admin.edit")}
                     </button>
                     <button
                       onClick={() => deleteOrder(job)}
@@ -583,7 +592,7 @@ export default function Dashboard() {
                     >
                       <span className="inline-flex items-center gap-2">
                         {deletingId === job.id && <Spinner size={12} />}
-                        Delete
+                        {t("admin.delete")}
                       </span>
                     </button>
                   </div>
@@ -593,11 +602,11 @@ export default function Dashboard() {
                     <table className="min-w-[720px] w-full table-auto text-sm md:table-fixed">
                       <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                         <tr>
-                          <th className="px-4 py-3 w-2/5">Item</th>
-                          <th className="px-4 py-3 w-1/6">Unit</th>
-                          <th className="px-4 py-3 w-1/6 text-right">Qty</th>
-                          <th className="px-4 py-3 w-1/6 text-right">Rate</th>
-                          <th className="px-4 py-3 w-1/6 text-right">Amount</th>
+                          <th className="px-4 py-3 w-2/5">{t("admin.tableItem")}</th>
+                          <th className="px-4 py-3 w-1/6">{t("admin.tableUnit")}</th>
+                          <th className="px-4 py-3 w-1/6 text-right">{t("admin.tableQty")}</th>
+                          <th className="px-4 py-3 w-1/6 text-right">{t("admin.tableRate")}</th>
+                          <th className="px-4 py-3 w-1/6 text-right">{t("admin.tableAmount")}</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-100 text-slate-700">
@@ -622,7 +631,7 @@ export default function Dashboard() {
                         ))}
                         <tr className="bg-slate-50 font-semibold">
                           <td className="px-4 py-2" colSpan={4}>
-                            MATERIAL COST
+                            {t("admin.materialCost")}
                           </td>
                           <td className="px-4 py-2 text-right whitespace-nowrap">
                             {formatMoney(job.totals?.materialCost)}
@@ -630,7 +639,7 @@ export default function Dashboard() {
                         </tr>
                         <tr>
                           <td className="px-4 py-2">
-                            Excavation and backfilling
+                            {t("admin.excavation")}
                           </td>
                           <td className="px-4 py-2 whitespace-nowrap">M</td>
                           <td className="px-4 py-2 text-right whitespace-nowrap">
@@ -644,7 +653,7 @@ export default function Dashboard() {
                           </td>
                         </tr>
                         <tr>
-                          <td className="px-4 py-2">Labour charges</td>
+                          <td className="px-4 py-2">{t("admin.labour")}</td>
                           <td className="px-4 py-2 whitespace-nowrap">%</td>
                           <td className="px-4 py-2 text-right whitespace-nowrap">10</td>
                           <td className="px-4 py-2 text-right whitespace-nowrap">
@@ -655,7 +664,7 @@ export default function Dashboard() {
                           </td>
                         </tr>
                         <tr>
-                          <td className="px-4 py-2">Supervision charges</td>
+                          <td className="px-4 py-2">{t("admin.supervision")}</td>
                           <td className="px-4 py-2 whitespace-nowrap">%</td>
                           <td className="px-4 py-2 text-right whitespace-nowrap">15</td>
                           <td className="px-4 py-2 text-right whitespace-nowrap">
@@ -667,7 +676,7 @@ export default function Dashboard() {
                         </tr>
                         <tr className="bg-slate-50 font-semibold">
                           <td className="px-4 py-2" colSpan={4}>
-                            OTHER CHARGES COST
+                            {t("admin.otherCharges")}
                           </td>
                           <td className="px-4 py-2 text-right whitespace-nowrap">
                             {formatMoney(job.totals?.otherChargesCost)}
@@ -675,7 +684,7 @@ export default function Dashboard() {
                         </tr>
                         <tr className="bg-slate-900 text-white font-semibold">
                           <td className="px-4 py-2" colSpan={4}>
-                            GRAND TOTAL
+                            {t("admin.grandTotal")}
                           </td>
                           <td className="px-4 py-2 text-right whitespace-nowrap">
                             {formatMoney(job.totals?.grandTotal)}
@@ -745,7 +754,7 @@ export default function Dashboard() {
               )}
               {technicianLoading && (
                 <div className="px-6 py-10 text-center text-sm text-slate-500">
-                  Loading technicians...
+                  {t("admin.loadingTechs")}
                 </div>
               )}
               {!technicianLoading && technicians.length === 0 && (
@@ -758,7 +767,7 @@ export default function Dashboard() {
                       />
                     </svg>
                   </div>
-                  No technicians registered yet.
+                  {t("admin.noTechs")}
                 </div>
               )}
               {!technicianLoading && technicians.length > 0 && (
@@ -766,12 +775,12 @@ export default function Dashboard() {
                   <table className="min-w-[920px] w-full table-auto text-sm md:table-fixed">
                     <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                       <tr>
-                        <th className="px-6 py-3 w-1/4">Name</th>
-                        <th className="px-6 py-3 w-1/4">Email</th>
-                        <th className="px-6 py-3 w-1/6">Phone</th>
-                        <th className="px-6 py-3 w-1/6">Zone</th>
-                        <th className="px-6 py-3 w-1/6 text-right">Orders</th>
-                        <th className="px-6 py-3 w-1/6 text-right">Action</th>
+                        <th className="px-6 py-3 w-1/4">{t("auth.fullName")}</th>
+                        <th className="px-6 py-3 w-1/4">{t("auth.email")}</th>
+                        <th className="px-6 py-3 w-1/6">{t("auth.phone")}</th>
+                        <th className="px-6 py-3 w-1/6">{t("common.zone")}</th>
+                        <th className="px-6 py-3 w-1/6 text-right">{t("admin.ordersCount")}</th>
+                        <th className="px-6 py-3 w-1/6 text-right">{t("admin.actions")}</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
@@ -798,19 +807,19 @@ export default function Dashboard() {
                                 onClick={() => loadTechnicianProfile(tech)}
                                 className="rounded-md border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
                               >
-                                Profile
+                                {t("admin.profile")}
                               </button>
                               <button
                                 onClick={() => exportTechnicianOrders(tech, "excel")}
                                 className="rounded-md border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
                               >
-                                Excel
+                                {t("admin.excel")}
                               </button>
                               <button
                                 onClick={() => exportTechnicianOrders(tech, "pdf")}
                                 className="rounded-md border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
                               >
-                                PDF
+                                {t("admin.pdf")}
                               </button>
                               <button
                                 onClick={() => {
@@ -819,7 +828,7 @@ export default function Dashboard() {
                                 }}
                                 className="rounded-md border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
                               >
-                                View Orders
+                                {t("admin.viewOrders")}
                               </button>
                             </div>
                           </td>
@@ -836,10 +845,7 @@ export default function Dashboard() {
         <div className="mt-6 text-xs text-slate-500">
           {activeTechnician && (
             <span>
-              Showing orders for technician:{" "}
-              <span className="font-semibold text-slate-700">
-                {activeTechnician.name || "—"}
-              </span>
+              {t("admin.showingFor", { name: activeTechnician.name || "—" })}
             </span>
           )}
         </div>
@@ -849,13 +855,13 @@ export default function Dashboard() {
             <div className="w-full max-w-3xl rounded-2xl bg-white p-6 shadow-xl">
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-slate-900">
-                  Edit Order #{editOrder.id}
+                  {t("admin.edit")} #{editOrder.id}
                 </h3>
                 <button
                   onClick={() => setEditOrder(null)}
                   className="text-sm text-slate-500 hover:text-slate-700"
                 >
-                  Close
+                  {t("common.close")}
                 </button>
               </div>
               <div className="mt-4 grid gap-4 sm:grid-cols-2">
@@ -988,10 +994,10 @@ export default function Dashboard() {
                         ],
                       }))
                     }
-                    className="rounded-md border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700"
-                  >
-                    + Add Item
-                  </button>
+                  className="rounded-md border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700"
+                >
+                  {t("tech.addItem")}
+                </button>
                 </div>
               </div>
               <div className="mt-6 flex items-center justify-end gap-2">
@@ -999,7 +1005,7 @@ export default function Dashboard() {
                   onClick={() => setEditOrder(null)}
                   className="rounded-md border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700"
                 >
-                  Cancel
+                  {t("common.cancel")}
                 </button>
                 <button
                   onClick={saveEdit}
@@ -1008,7 +1014,7 @@ export default function Dashboard() {
                 >
                   <span className="inline-flex items-center gap-2">
                     {editSaving && <Spinner size={12} />}
-                    Save Changes
+                    {t("common.save")}
                   </span>
                 </button>
               </div>
