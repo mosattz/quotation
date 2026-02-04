@@ -320,7 +320,7 @@ export default function Dashboard() {
             </button>
             <button
               onClick={handleLogout}
-              className="flex-1 rounded-lg border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-900 shadow-sm transition hover:bg-slate-50 dark:border-slate-800 dark:bg-[var(--ui-card)] dark:text-slate-100 dark:hover:bg-slate-900 md:w-full md:text-left"
+              className="flex-1 rounded-lg border border-slate-400 bg-white px-4 py-2 text-xs font-semibold text-[color:var(--ui-text)] shadow-sm transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-950/40 dark:text-[color:var(--ui-text)] dark:hover:bg-slate-900/60 md:w-full md:text-left"
             >
               {t("common.logout")}
             </button>
