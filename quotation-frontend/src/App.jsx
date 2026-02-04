@@ -3,21 +3,22 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import CreateJob from "./pages/CreateJob";
+import Landing from "./pages/Landing";
 import { isAdminUser, isAuthed } from "./utils/auth";
 
 function RequireAuth({ children }) {
-  if (!isAuthed()) return <Navigate to="/" replace />;
+  if (!isAuthed()) return <Navigate to="/login" replace />;
   return children;
 }
 
 function RequireAdmin({ children }) {
-  if (!isAuthed()) return <Navigate to="/" replace />;
+  if (!isAuthed()) return <Navigate to="/login" replace />;
   if (!isAdminUser()) return <Navigate to="/technician" replace />;
   return children;
 }
 
 function DashboardRedirect() {
-  if (!isAuthed()) return <Navigate to="/" replace />;
+  if (!isAuthed()) return <Navigate to="/login" replace />;
   return isAdminUser() ? (
     <Navigate to="/admin" replace />
   ) : (
@@ -31,7 +32,8 @@ export default function App() {
       <Routes>
         {/* Static-site hosts sometimes keep /index.html in the URL; normalize it. */}
         <Route path="/index.html" element={<Navigate to="/" replace />} />
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Landing />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route
           path="/dashboard"
@@ -53,6 +55,7 @@ export default function App() {
             </RequireAuth>
           }
         />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );

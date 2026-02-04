@@ -38,7 +38,7 @@ export default function CreateJob() {
 
   const handleLogout = () => {
     clearAuth();
-    navigate("/", { replace: true });
+    navigate("/login", { replace: true });
   };
 
   const addRecent = (entry) => {

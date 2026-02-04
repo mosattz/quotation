@@ -250,7 +250,7 @@ export default function Dashboard() {
 
   const handleLogout = () => {
     clearAuth();
-    navigate("/", { replace: true });
+    navigate("/login", { replace: true });
   };
 
   const loadOrdersForTechnician = async (technician) => {
