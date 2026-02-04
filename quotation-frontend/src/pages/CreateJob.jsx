@@ -185,7 +185,7 @@ export default function CreateJob() {
               onClick={handleLogout}
               className={`flex-1 rounded-lg px-4 py-2 text-xs font-semibold shadow-sm transition md:w-full md:text-left ${
                 authed
-                  ? "border border-slate-300 bg-white text-slate-900 hover:bg-slate-50 dark:border-slate-800 dark:bg-[var(--ui-card)] dark:text-slate-100 dark:hover:bg-slate-900"
+                  ? "border border-slate-400 bg-white text-[color:var(--ui-text)] hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-950/40 dark:text-[color:var(--ui-text)] dark:hover:bg-slate-900/60"
                   : "bg-emerald-700 text-white hover:bg-emerald-800"
               }`}
             >
