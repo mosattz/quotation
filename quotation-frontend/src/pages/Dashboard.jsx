@@ -266,7 +266,7 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen w-screen bg-slate-100">
       <div className="flex min-h-screen flex-col md:flex-row">
-        <aside className="w-full border-b border-slate-200 bg-white px-6 py-6 md:w-64 md:border-b-0 md:border-r md:px-5 md:py-8">
+        <aside className="sticky top-0 z-40 w-full border-b border-slate-200 bg-white/95 px-6 py-6 backdrop-blur supports-[backdrop-filter]:bg-white/80 md:w-64 md:border-b-0 md:border-r md:px-5 md:py-8 md:backdrop-blur-none md:supports-[backdrop-filter]:bg-white">
           <div className="mb-8">
             <h1 className="text-lg font-semibold text-slate-900">
               Admin Dashboard
