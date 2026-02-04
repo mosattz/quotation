@@ -167,6 +167,10 @@ const translations = {
     "settings.title": "Mipangilio",
     "settings.subtitle": "Badilisha mipangilio ya akaunti yako.",
     "settings.languageHelp": "Chagua lugha utakayotumia kwenye mfumo huu.",
+    "settings.theme": "Mwonekano",
+    "settings.themeHelp": "Chagua mwonekano wa mfumo (mwanga au giza).",
+    "settings.light": "Mwanga",
+    "settings.dark": "Giza",
   },
   en: {
     // Common
@@ -331,6 +335,10 @@ const translations = {
     "settings.title": "Settings",
     "settings.subtitle": "Manage your preferences.",
     "settings.languageHelp": "Choose the language used across the system.",
+    "settings.theme": "Theme",
+    "settings.themeHelp": "Choose the system appearance (light or dark).",
+    "settings.light": "Light",
+    "settings.dark": "Dark",
   },
 };
 

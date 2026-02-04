@@ -5,12 +5,14 @@ import Spinner from "../components/Spinner";
 import { apiGet, apiPost } from "../api/api";
 import { clearAuth } from "../utils/auth";
 import { useI18n } from "../i18n/i18n";
+import { useTheme } from "../theme/theme";
 
 const RECENT_KEY = "quotation_recent_items";
 
 export default function CreateJob() {
   const navigate = useNavigate();
   const { t, lang, setLang } = useI18n();
+  const { theme, setTheme } = useTheme();
   const [items, setItems] = useState([]);
   const isAdmin = false;
   const [tab, setTab] = useState("order");
@@ -125,14 +127,14 @@ export default function CreateJob() {
   };
 
   return (
-    <div className="min-h-screen w-screen bg-slate-100">
+    <div className="min-h-screen w-screen bg-[var(--ui-bg)]">
       <div className="flex min-h-screen flex-col md:flex-row">
-        <aside className="sticky top-0 z-40 w-full border-b border-slate-200 bg-white/95 px-6 py-6 backdrop-blur supports-[backdrop-filter]:bg-white/80 md:w-64 md:border-b-0 md:border-r md:px-5 md:py-8 md:backdrop-blur-none md:supports-[backdrop-filter]:bg-white">
+        <aside className="sticky top-0 z-40 w-full border-b border-slate-200 bg-white/95 px-6 py-6 backdrop-blur supports-[backdrop-filter]:bg-white/80 dark:border-slate-800 dark:bg-[var(--ui-card)]/95 md:w-64 md:border-b-0 md:border-r md:px-5 md:py-8 md:backdrop-blur-none md:supports-[backdrop-filter]:bg-white md:dark:supports-[backdrop-filter]:bg-[var(--ui-card)]">
           <div className="mb-8">
-            <h1 className="text-lg font-semibold text-slate-900">
+            <h1 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
               {t("tech.title")}
             </h1>
-            <p className="mt-1 text-xs text-slate-500">
+            <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
               {t("tech.subtitle")}
             </p>
           </div>
@@ -175,39 +177,41 @@ export default function CreateJob() {
             </button>
             <button
               onClick={handleLogout}
-              className="flex-1 rounded-lg border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 md:w-full md:text-left"
+              className="flex-1 rounded-lg border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-slate-800 dark:bg-[var(--ui-card)] dark:text-slate-200 dark:hover:bg-slate-900 md:w-full md:text-left"
             >
               {t("common.logout")}
             </button>
           </div>
         </aside>
 
-        <main className="flex min-h-screen flex-1 flex-col px-6 py-8">
+        <main className="flex min-h-screen flex-1 flex-col px-6 py-8 text-slate-900 dark:text-slate-100">
           <div className="mb-6">
-            <h2 className="text-2xl font-semibold text-slate-900">
+            <h2 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">
               {tab === "settings" ? t("settings.title") : t("tech.orderDetails")}
             </h2>
-            <p className="mt-1 text-sm text-slate-500">
+            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
               {tab === "settings" ? t("settings.subtitle") : t("tech.orderDetailsSub")}
             </p>
           </div>
 
           {tab === "settings" && (
             <div className="card-surface rounded-2xl p-6">
-              <label className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
+              <div className="grid gap-6 md:grid-cols-2">
+                <div>
+                  <label className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
                 {t("common.language")}
-              </label>
-              <p className="mt-2 text-sm text-slate-600">
-                {t("settings.languageHelp")}
-              </p>
-              <div className="mt-4 inline-flex rounded-xl border border-slate-200 bg-white p-1 shadow-sm">
+                  </label>
+                  <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+                    {t("settings.languageHelp")}
+                  </p>
+                  <div className="mt-4 inline-flex rounded-xl border border-slate-200 bg-white p-1 shadow-sm dark:border-slate-800 dark:bg-[var(--ui-card)]">
                 <button
                   type="button"
                   onClick={() => setLang("sw")}
                   className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${
                     lang === "sw"
                       ? "bg-emerald-700 text-white"
-                      : "text-slate-700 hover:bg-slate-100"
+                      : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-900"
                   }`}
                 >
                   {t("common.swahili")}
@@ -218,11 +222,45 @@ export default function CreateJob() {
                   className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${
                     lang === "en"
                       ? "bg-emerald-700 text-white"
-                      : "text-slate-700 hover:bg-slate-100"
+                      : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-900"
                   }`}
                 >
                   {t("common.english")}
                 </button>
+              </div>
+                </div>
+                <div>
+                  <label className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
+                    {t("settings.theme")}
+                  </label>
+                  <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+                    {t("settings.themeHelp")}
+                  </p>
+                  <div className="mt-4 inline-flex rounded-xl border border-slate-200 bg-white p-1 shadow-sm dark:border-slate-800 dark:bg-[var(--ui-card)]">
+                    <button
+                      type="button"
+                      onClick={() => setTheme("light")}
+                      className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${
+                        theme === "light"
+                          ? "bg-emerald-700 text-white"
+                          : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-900"
+                      }`}
+                    >
+                      {t("settings.light")}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setTheme("dark")}
+                      className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${
+                        theme === "dark"
+                          ? "bg-emerald-700 text-white"
+                          : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-900"
+                      }`}
+                    >
+                      {t("settings.dark")}
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           )}

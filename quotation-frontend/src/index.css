@@ -2,12 +2,30 @@
 
 :root {
   color-scheme: light;
+  --ui-bg: #f4f6f9;
+  --ui-text: #0f172a;
+  --ui-card: #ffffff;
+  --ui-border: rgba(148, 163, 184, 0.35);
+  --ui-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
+  --ui-muted: #64748b;
+  --ui-muted-2: #94a3b8;
 }
 
 body {
   font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-  background-color: #f4f6f9;
-  color: #0f172a;
+  background-color: var(--ui-bg);
+  color: var(--ui-text);
+}
+
+.dark {
+  color-scheme: dark;
+  --ui-bg: #0b1220;
+  --ui-text: #e2e8f0;
+  --ui-card: #0f172a;
+  --ui-border: rgba(148, 163, 184, 0.2);
+  --ui-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  --ui-muted: #94a3b8;
+  --ui-muted-2: #cbd5e1;
 }
 
 .ui-spinner {
@@ -18,6 +36,11 @@ body {
   animation: spinnerSpin 0.8s linear infinite;
 }
 
+.dark .ui-spinner {
+  border-color: rgba(226, 232, 240, 0.22);
+  border-top-color: rgba(226, 232, 240, 0.92);
+}
+
 @keyframes spinnerSpin {
   to {
     transform: rotate(360deg);
@@ -25,7 +48,7 @@ body {
 }
 
 .card-surface {
-  background: #ffffff;
-  border: 1px solid rgba(148, 163, 184, 0.35);
-  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
+  background: var(--ui-card);
+  border: 1px solid var(--ui-border);
+  box-shadow: var(--ui-shadow);
 }
