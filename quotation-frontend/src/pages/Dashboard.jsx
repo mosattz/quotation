@@ -636,16 +636,16 @@ export default function Dashboard() {
                 <div key={job.id} className="px-6 py-6">
                 <div className="mb-4 flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
                   <div>
-                    <h3 className="text-base font-semibold text-slate-900">
+                    <h3 className="text-base font-semibold text-[color:var(--ui-text)]">
                       {job.customer_name || t("common.customer")}
                     </h3>
-                    <p className="text-xs text-slate-500">
+                    <p className="text-xs text-[color:var(--ui-muted)]">
                       {job.created_at
                         ? new Date(job.created_at).toLocaleString()
                         : ""}
                     </p>
                   </div>
-                  <div className="text-xs text-slate-500">
+                  <div className="text-xs text-[color:var(--ui-muted)]">
                     {t("common.zone")}: {job.zone || "—"} • {t("common.distance")}:{" "}
                     {job.distance || "—"} • {t("common.pipe")}:{" "}
                     {job.pipe_size || "—"}
