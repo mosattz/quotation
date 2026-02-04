@@ -277,7 +277,7 @@ export default function Dashboard() {
       <div className="flex min-h-screen flex-col md:flex-row">
         <aside className="sticky top-0 z-40 w-full border-b border-slate-200 bg-white/95 px-6 py-6 backdrop-blur supports-[backdrop-filter]:bg-white/80 dark:border-slate-800 dark:bg-[var(--ui-card)]/95 md:w-64 md:border-b-0 md:border-r md:px-5 md:py-8 md:backdrop-blur-none md:supports-[backdrop-filter]:bg-white md:dark:supports-[backdrop-filter]:bg-[var(--ui-card)]">
           <div className="mb-8">
-            <h1 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+            <h1 className="text-lg font-semibold text-[color:var(--ui-text)]">
               {t("admin.title")}
             </h1>
             <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
@@ -327,9 +327,9 @@ export default function Dashboard() {
           </nav>
         </aside>
 
-        <main className="flex min-h-screen flex-1 flex-col px-6 py-8 text-slate-900 dark:text-slate-100">
+        <main className="flex min-h-screen flex-1 flex-col px-6 py-8 text-[color:var(--ui-text)]">
           <div className="mb-6">
-            <h2 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">
+            <h2 className="text-2xl font-semibold text-[color:var(--ui-text)]">
               {tab === "orders"
                 ? t("admin.ordersTab")
                 : tab === "technicians"
