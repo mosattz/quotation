@@ -297,7 +297,7 @@ export default function CreateJob() {
                 <span className="text-rose-500"> *</span>
               </label>
               <input
-                className="mt-3 w-full border-b border-slate-400 bg-transparent pb-2 text-base text-slate-950 outline-none transition placeholder:text-slate-600 focus:border-slate-950 dark:border-slate-600 dark:text-slate-50 dark:placeholder:text-slate-400 dark:focus:border-slate-200"
+                className="mt-3 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-base text-[color:var(--ui-text)] shadow-sm outline-none transition placeholder:text-slate-500 focus:border-slate-950 dark:border-slate-700 dark:bg-slate-950/40 dark:text-[color:var(--ui-text)] dark:placeholder:text-slate-400 dark:focus:border-slate-200"
                 placeholder="Your answer"
                 value={form.technicianName}
                 onChange={(e) => updateForm("technicianName", e.target.value)}
@@ -308,7 +308,7 @@ export default function CreateJob() {
                 {t("tech.zoneLabel")}<span className="text-rose-500"> *</span>
               </label>
               <select
-                className="mt-3 w-full max-w-[220px] rounded-md border border-slate-400 bg-white px-3 py-2 text-base text-slate-950 shadow-sm outline-none transition focus:border-slate-950 dark:border-slate-600 dark:bg-slate-950/40 dark:text-slate-50 dark:focus:border-slate-200"
+                className="mt-3 w-full max-w-[220px] rounded-md border border-slate-300 bg-white px-3 py-2 text-base text-[color:var(--ui-text)] shadow-sm outline-none transition focus:border-slate-950 dark:border-slate-700 dark:bg-slate-950/40 dark:text-[color:var(--ui-text)] dark:focus:border-slate-200"
                 value={form.zone}
                 onChange={(e) => updateForm("zone", e.target.value)}
               >
@@ -329,7 +329,7 @@ export default function CreateJob() {
                 {t("tech.customerLabel")}<span className="text-rose-500"> *</span>
               </label>
               <input
-                className="mt-3 w-full border-b border-slate-400 bg-transparent pb-2 text-base text-slate-950 outline-none transition placeholder:text-slate-600 focus:border-slate-950 dark:border-slate-600 dark:text-slate-50 dark:placeholder:text-slate-400 dark:focus:border-slate-200"
+                className="mt-3 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-base text-[color:var(--ui-text)] shadow-sm outline-none transition placeholder:text-slate-500 focus:border-slate-950 dark:border-slate-700 dark:bg-slate-950/40 dark:text-[color:var(--ui-text)] dark:placeholder:text-slate-400 dark:focus:border-slate-200"
                 placeholder="Your answer"
                 value={form.customerName}
                 onChange={(e) => updateForm("customerName", e.target.value)}
@@ -343,13 +343,13 @@ export default function CreateJob() {
               <div className="mt-3 flex items-center gap-3">
                 <input
                   inputMode="decimal"
-                  className="w-full border-b border-slate-400 bg-transparent pb-2 text-base text-slate-950 outline-none transition placeholder:text-slate-600 focus:border-slate-950 dark:border-slate-600 dark:text-slate-50 dark:placeholder:text-slate-400 dark:focus:border-slate-200"
+                  className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-base text-[color:var(--ui-text)] shadow-sm outline-none transition placeholder:text-slate-500 focus:border-slate-950 dark:border-slate-700 dark:bg-slate-950/40 dark:text-[color:var(--ui-text)] dark:placeholder:text-slate-400 dark:focus:border-slate-200"
                   placeholder={t("tech.enterNumber")}
                   value={form.distanceValue}
                   onChange={(e) => updateForm("distanceValue", e.target.value)}
                 />
                 <select
-                  className="w-28 rounded-md border border-slate-400 bg-white px-2 py-2 text-base text-slate-950 shadow-sm outline-none transition focus:border-slate-950 dark:border-slate-600 dark:bg-slate-950/40 dark:text-slate-50 dark:focus:border-slate-200"
+                  className="w-28 rounded-md border border-slate-300 bg-white px-2 py-2 text-base text-[color:var(--ui-text)] shadow-sm outline-none transition focus:border-slate-950 dark:border-slate-700 dark:bg-slate-950/40 dark:text-[color:var(--ui-text)] dark:focus:border-slate-200"
                   value={form.distanceUnit}
                   onChange={(e) => updateForm("distanceUnit", e.target.value)}
                 >
@@ -368,13 +368,13 @@ export default function CreateJob() {
               <div className="mt-3 flex items-center gap-3">
                 <input
                   inputMode="decimal"
-                  className="w-full border-b border-slate-400 bg-transparent pb-2 text-base text-slate-950 outline-none transition placeholder:text-slate-600 focus:border-slate-950 dark:border-slate-600 dark:text-slate-50 dark:placeholder:text-slate-400 dark:focus:border-slate-200"
+                  className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-base text-[color:var(--ui-text)] shadow-sm outline-none transition placeholder:text-slate-500 focus:border-slate-950 dark:border-slate-700 dark:bg-slate-950/40 dark:text-[color:var(--ui-text)] dark:placeholder:text-slate-400 dark:focus:border-slate-200"
                   placeholder={t("tech.enterNumber")}
                   value={form.pipeSizeValue}
                   onChange={(e) => updateForm("pipeSizeValue", e.target.value)}
                 />
                 <select
-                  className="w-28 rounded-md border border-slate-400 bg-white px-2 py-2 text-base text-slate-950 shadow-sm outline-none transition focus:border-slate-950 dark:border-slate-600 dark:bg-slate-950/40 dark:text-slate-50 dark:focus:border-slate-200"
+                  className="w-28 rounded-md border border-slate-300 bg-white px-2 py-2 text-base text-[color:var(--ui-text)] shadow-sm outline-none transition focus:border-slate-950 dark:border-slate-700 dark:bg-slate-950/40 dark:text-[color:var(--ui-text)] dark:focus:border-slate-200"
                   value={form.pipeSizeUnit}
                   onChange={(e) => updateForm("pipeSizeUnit", e.target.value)}
                 >

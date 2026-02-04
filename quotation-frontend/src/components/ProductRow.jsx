@@ -96,7 +96,7 @@ export default function ProductRow({
             Item
           </label>
           <input
-            className="mt-2 w-full border-b border-slate-400 bg-transparent pb-2 text-base text-slate-950 outline-none transition placeholder:text-slate-600 focus:border-slate-950 dark:border-slate-600 dark:text-slate-50 dark:placeholder:text-slate-400 dark:focus:border-slate-200"
+            className="mt-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-base text-[color:var(--ui-text)] shadow-sm outline-none transition placeholder:text-slate-500 focus:border-slate-950 dark:border-slate-700 dark:bg-slate-950/40 dark:text-[color:var(--ui-text)] dark:placeholder:text-slate-400 dark:focus:border-slate-200"
             placeholder="Your answer"
             value={nameValue}
             onChange={(e) => handleNameChange(e.target.value)}
@@ -179,7 +179,7 @@ export default function ProductRow({
               Unit
             </label>
             <input
-              className="mt-2 w-full border-b border-slate-400 bg-transparent pb-2 text-base text-slate-950 outline-none transition placeholder:text-slate-600 focus:border-slate-950 dark:border-slate-600 dark:text-slate-50 dark:placeholder:text-slate-400 dark:focus:border-slate-200"
+              className="mt-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-base text-[color:var(--ui-text)] shadow-sm outline-none transition placeholder:text-slate-500 focus:border-slate-950 dark:border-slate-700 dark:bg-slate-950/40 dark:text-[color:var(--ui-text)] dark:placeholder:text-slate-400 dark:focus:border-slate-200"
               placeholder="e.g. PC, M"
               value={item.unit || ""}
               onChange={(e) => update("unit", e.target.value)}
@@ -210,7 +210,7 @@ export default function ProductRow({
             <input
               type="number"
               min="0"
-              className="mt-2 w-full border-b border-slate-400 bg-transparent pb-2 text-right text-base text-slate-950 outline-none transition placeholder:text-slate-600 focus:border-slate-950 dark:border-slate-600 dark:text-slate-50 dark:placeholder:text-slate-400 dark:focus:border-slate-200"
+              className="mt-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-right text-base text-[color:var(--ui-text)] shadow-sm outline-none transition placeholder:text-slate-500 focus:border-slate-950 dark:border-slate-700 dark:bg-slate-950/40 dark:text-[color:var(--ui-text)] dark:placeholder:text-slate-400 dark:focus:border-slate-200"
               placeholder="0"
               value={item.qty ?? ""}
               onChange={(e) => update("qty", Number(e.target.value))}
