@@ -282,7 +282,7 @@ export default function CreateJob() {
           {/* Google-Forms Style Fields */}
         <div className="mb-8 space-y-4">
             <div className="card-surface rounded-xl px-4 py-4">
-              <label className="text-xs font-semibold uppercase tracking-wide text-slate-700 dark:text-slate-200">
+              <label className="text-xs font-bold uppercase tracking-wide text-slate-800 dark:text-slate-200">
                 {t("tech.zoneLabel")}<span className="text-rose-500"> *</span>
               </label>
               <select
@@ -303,7 +303,7 @@ export default function CreateJob() {
             </div>
 
             <div className="card-surface rounded-xl px-4 py-4">
-              <label className="text-xs font-semibold uppercase tracking-wide text-slate-700 dark:text-slate-200">
+              <label className="text-xs font-bold uppercase tracking-wide text-slate-800 dark:text-slate-200">
                 {t("tech.customerLabel")}<span className="text-rose-500"> *</span>
               </label>
               <input
@@ -315,7 +315,7 @@ export default function CreateJob() {
             </div>
 
             <div className="card-surface rounded-xl px-4 py-4">
-              <label className="text-xs font-semibold uppercase tracking-wide text-slate-700 dark:text-slate-200">
+              <label className="text-xs font-bold uppercase tracking-wide text-slate-800 dark:text-slate-200">
                 {t("tech.distanceLabel")}<span className="text-rose-500"> *</span>
               </label>
               <div className="mt-3 flex items-center gap-3">
@@ -340,7 +340,7 @@ export default function CreateJob() {
             </div>
 
             <div className="card-surface rounded-xl px-4 py-4">
-              <label className="text-xs font-semibold uppercase tracking-wide text-slate-700 dark:text-slate-200">
+              <label className="text-xs font-bold uppercase tracking-wide text-slate-800 dark:text-slate-200">
                 {t("tech.pipeSizeLabel")}<span className="text-rose-500"> *</span>
               </label>
               <div className="mt-3 flex items-center gap-3">
