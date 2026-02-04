@@ -79,18 +79,46 @@ function normalizeNameLoose(value) {
     .replace(/["']/g, "")
     .replace(/\([^)]*\)/g, " ")
     .replace(/\bone\s+side\b/g, " ")
+    // Common real-world typos / variants
+    .replace(/\bpolly\b/g, "poly")
     .replace(/\s+/g, " ")
     .trim();
 }
 
 function extractSizeTokens(value) {
   const cleaned = normalizeName(value).replace(/["']/g, "");
-  const matches = cleaned.match(/\d+(?:\.\d+)?(?:\/\d+)?/g);
-  if (!matches) return [];
-  const sizes = matches
-    .map((token) => token.replace(/^0+/, ""))
-    .filter(Boolean);
-  return Array.from(new Set(sizes));
+  const sizes = new Set();
+
+  // Mixed numbers like "1 1/2" => 1.5
+  for (const match of cleaned.matchAll(/(\d+)\s+(\d+)\/(\d+)/g)) {
+    const whole = Number(match[1]);
+    const num = Number(match[2]);
+    const den = Number(match[3]);
+    if (Number.isFinite(whole) && Number.isFinite(num) && Number.isFinite(den) && den !== 0) {
+      const val = whole + num / den;
+      sizes.add(String(val).replace(/\.0+$/, ""));
+    }
+  }
+
+  // Fractions like "1/2" => 0.5
+  for (const match of cleaned.matchAll(/(\d+)\/(\d+)/g)) {
+    const num = Number(match[1]);
+    const den = Number(match[2]);
+    if (Number.isFinite(num) && Number.isFinite(den) && den !== 0) {
+      const val = num / den;
+      sizes.add(String(val).replace(/\.0+$/, ""));
+    }
+  }
+
+  // Plain numbers / decimals like "2" or "1.5"
+  for (const match of cleaned.matchAll(/\d+(?:\.\d+)?/g)) {
+    const token = match[0];
+    if (!token) continue;
+    sizes.add(token.replace(/^0+/, "") || "0");
+  }
+
+  sizes.delete("");
+  return Array.from(sizes);
 }
 
 function similarityScore(a, b) {
@@ -149,6 +177,7 @@ async function fallbackLookup(pool, name) {
     const params = [];
     if (tokens.length) {
       tokens.forEach((token) => {
+        // Use OR for token matching; strict AND makes common variants/typos miss.
         whereParts.push(`LOWER(${t.nameCol}) LIKE ?`);
         params.push(`%${token}%`);
       });
@@ -156,16 +185,14 @@ async function fallbackLookup(pool, name) {
       whereParts.push(`LOWER(${t.nameCol}) LIKE ?`);
       params.push(`%${needle}%`);
     }
-    requiredSizes.forEach((size) => {
-      whereParts.push(`LOWER(${t.nameCol}) REGEXP ?`);
-      params.push(`(^|[^0-9])${size}([^0-9]|$)`);
-    });
-    const whereClause = whereParts.length ? `WHERE ${whereParts.join(" AND ")}` : "";
+    const whereClause = whereParts.length
+      ? `WHERE (${whereParts.join(" OR ")})`
+      : "";
     const [rows] = await pool.query(
       `SELECT ${t.nameCol} AS name, ${t.unitCol} AS unit, average_with_vat AS rate
        FROM ${t.table}
        ${whereClause}
-       LIMIT 200`,
+       LIMIT 400`,
       params
     );
     let best = null;
