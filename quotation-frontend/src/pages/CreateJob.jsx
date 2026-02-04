@@ -14,8 +14,10 @@ export default function CreateJob() {
   const [form, setForm] = useState({
     zone: "",
     customerName: "",
-    distance: "",
-    pipeSize: "",
+    distanceValue: "",
+    distanceUnit: "m",
+    pipeSizeValue: "",
+    pipeSizeUnit: "cm",
   });
   const [status, setStatus] = useState({ type: "", message: "" });
   const [submitting, setSubmitting] = useState(false);
@@ -59,10 +61,20 @@ export default function CreateJob() {
   };
 
   const validateForm = () => {
-    if (!form.zone || !form.customerName || !form.distance || !form.pipeSize) {
+    if (
+      !form.zone ||
+      !form.customerName ||
+      !form.distanceValue ||
+      !form.distanceUnit ||
+      !form.pipeSizeValue ||
+      !form.pipeSizeUnit
+    ) {
       return "Please fill all required fields.";
     }
-    if (Number.isNaN(Number(form.distance)) || Number.isNaN(Number(form.pipeSize))) {
+    if (
+      Number.isNaN(Number(form.distanceValue)) ||
+      Number.isNaN(Number(form.pipeSizeValue))
+    ) {
       return "Distance and pipe size must be numeric.";
     }
     if (!items.length) {
@@ -90,11 +102,13 @@ export default function CreateJob() {
     if (submitting) return;
     setSubmitting(true);
     try {
+      const distance = `${form.distanceValue} ${form.distanceUnit}`.trim();
+      const pipeSize = `${form.pipeSizeValue} ${form.pipeSizeUnit}`.trim();
       await apiPost("/api/orders", {
         zone: form.zone,
         customerName: form.customerName,
-        distance: form.distance,
-        pipeSize: form.pipeSize,
+        distance,
+        pipeSize,
         items,
       });
       items.forEach((entry) => addRecent(entry));
@@ -198,24 +212,50 @@ export default function CreateJob() {
               <label className="text-xs font-semibold uppercase tracking-wide text-slate-700">
                 UMBALI TOKA BOMBA KUBWA<span className="text-rose-500"> *</span>
               </label>
-              <input
-                className="mt-3 w-full border-b border-slate-200 bg-transparent pb-2 text-sm text-slate-800 outline-none transition focus:border-slate-900"
-                placeholder="Your answer"
-                value={form.distance}
-                onChange={(e) => updateForm("distance", e.target.value)}
-              />
+              <div className="mt-3 flex items-center gap-3">
+                <input
+                  inputMode="decimal"
+                  className="w-full border-b border-slate-200 bg-transparent pb-2 text-sm text-slate-800 outline-none transition focus:border-slate-900"
+                  placeholder="Enter number"
+                  value={form.distanceValue}
+                  onChange={(e) => updateForm("distanceValue", e.target.value)}
+                />
+                <select
+                  className="w-28 rounded-md border border-slate-200 bg-white px-2 py-2 text-sm text-slate-800 shadow-sm outline-none transition focus:border-slate-900"
+                  value={form.distanceUnit}
+                  onChange={(e) => updateForm("distanceUnit", e.target.value)}
+                >
+                  <option value="m">m</option>
+                  <option value="cm">cm</option>
+                  <option value="km">km</option>
+                  <option value="ft">ft</option>
+                </select>
+              </div>
             </div>
 
             <div className="card-surface rounded-xl px-4 py-4">
               <label className="text-xs font-semibold uppercase tracking-wide text-slate-700">
                 SIZE YA BOMBA KUBWA<span className="text-rose-500"> *</span>
               </label>
-              <input
-                className="mt-3 w-full border-b border-slate-200 bg-transparent pb-2 text-sm text-slate-800 outline-none transition focus:border-slate-900"
-                placeholder="Your answer"
-                value={form.pipeSize}
-                onChange={(e) => updateForm("pipeSize", e.target.value)}
-              />
+              <div className="mt-3 flex items-center gap-3">
+                <input
+                  inputMode="decimal"
+                  className="w-full border-b border-slate-200 bg-transparent pb-2 text-sm text-slate-800 outline-none transition focus:border-slate-900"
+                  placeholder="Enter number"
+                  value={form.pipeSizeValue}
+                  onChange={(e) => updateForm("pipeSizeValue", e.target.value)}
+                />
+                <select
+                  className="w-28 rounded-md border border-slate-200 bg-white px-2 py-2 text-sm text-slate-800 shadow-sm outline-none transition focus:border-slate-900"
+                  value={form.pipeSizeUnit}
+                  onChange={(e) => updateForm("pipeSizeUnit", e.target.value)}
+                >
+                  <option value="mm">mm</option>
+                  <option value="cm">cm</option>
+                  <option value="m">m</option>
+                  <option value="inch">inch</option>
+                </select>
+              </div>
             </div>
         </div>
 
