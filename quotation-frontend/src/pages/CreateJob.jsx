@@ -282,11 +282,11 @@ export default function CreateJob() {
           {/* Google-Forms Style Fields */}
         <div className="mb-8 space-y-4">
             <div className="card-surface rounded-xl px-4 py-4">
-              <label className="text-xs font-semibold uppercase tracking-wide text-slate-700">
+              <label className="text-xs font-semibold uppercase tracking-wide text-slate-700 dark:text-slate-200">
                 {t("tech.zoneLabel")}<span className="text-rose-500"> *</span>
               </label>
               <select
-                className="mt-3 w-full max-w-[220px] rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 shadow-sm outline-none transition focus:border-slate-900"
+                className="mt-3 w-full max-w-[220px] rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 shadow-sm outline-none transition focus:border-slate-900 dark:border-slate-700 dark:bg-slate-950/40 dark:text-slate-100 dark:focus:border-slate-200"
                 value={form.zone}
                 onChange={(e) => updateForm("zone", e.target.value)}
               >
@@ -303,11 +303,11 @@ export default function CreateJob() {
             </div>
 
             <div className="card-surface rounded-xl px-4 py-4">
-              <label className="text-xs font-semibold uppercase tracking-wide text-slate-700">
+              <label className="text-xs font-semibold uppercase tracking-wide text-slate-700 dark:text-slate-200">
                 {t("tech.customerLabel")}<span className="text-rose-500"> *</span>
               </label>
               <input
-                className="mt-3 w-full border-b border-slate-200 bg-transparent pb-2 text-sm text-slate-800 outline-none transition focus:border-slate-900"
+                className="mt-3 w-full border-b border-slate-200 bg-transparent pb-2 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-slate-900 dark:border-slate-700 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-slate-200"
                 placeholder="Your answer"
                 value={form.customerName}
                 onChange={(e) => updateForm("customerName", e.target.value)}
@@ -315,19 +315,19 @@ export default function CreateJob() {
             </div>
 
             <div className="card-surface rounded-xl px-4 py-4">
-              <label className="text-xs font-semibold uppercase tracking-wide text-slate-700">
+              <label className="text-xs font-semibold uppercase tracking-wide text-slate-700 dark:text-slate-200">
                 {t("tech.distanceLabel")}<span className="text-rose-500"> *</span>
               </label>
               <div className="mt-3 flex items-center gap-3">
                 <input
                   inputMode="decimal"
-                  className="w-full border-b border-slate-200 bg-transparent pb-2 text-sm text-slate-800 outline-none transition focus:border-slate-900"
+                  className="w-full border-b border-slate-200 bg-transparent pb-2 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-slate-900 dark:border-slate-700 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-slate-200"
                   placeholder={t("tech.enterNumber")}
                   value={form.distanceValue}
                   onChange={(e) => updateForm("distanceValue", e.target.value)}
                 />
                 <select
-                  className="w-28 rounded-md border border-slate-200 bg-white px-2 py-2 text-sm text-slate-800 shadow-sm outline-none transition focus:border-slate-900"
+                  className="w-28 rounded-md border border-slate-200 bg-white px-2 py-2 text-sm text-slate-800 shadow-sm outline-none transition focus:border-slate-900 dark:border-slate-700 dark:bg-slate-950/40 dark:text-slate-100 dark:focus:border-slate-200"
                   value={form.distanceUnit}
                   onChange={(e) => updateForm("distanceUnit", e.target.value)}
                 >
@@ -340,19 +340,19 @@ export default function CreateJob() {
             </div>
 
             <div className="card-surface rounded-xl px-4 py-4">
-              <label className="text-xs font-semibold uppercase tracking-wide text-slate-700">
+              <label className="text-xs font-semibold uppercase tracking-wide text-slate-700 dark:text-slate-200">
                 {t("tech.pipeSizeLabel")}<span className="text-rose-500"> *</span>
               </label>
               <div className="mt-3 flex items-center gap-3">
                 <input
                   inputMode="decimal"
-                  className="w-full border-b border-slate-200 bg-transparent pb-2 text-sm text-slate-800 outline-none transition focus:border-slate-900"
+                  className="w-full border-b border-slate-200 bg-transparent pb-2 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-slate-900 dark:border-slate-700 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-slate-200"
                   placeholder={t("tech.enterNumber")}
                   value={form.pipeSizeValue}
                   onChange={(e) => updateForm("pipeSizeValue", e.target.value)}
                 />
                 <select
-                  className="w-28 rounded-md border border-slate-200 bg-white px-2 py-2 text-sm text-slate-800 shadow-sm outline-none transition focus:border-slate-900"
+                  className="w-28 rounded-md border border-slate-200 bg-white px-2 py-2 text-sm text-slate-800 shadow-sm outline-none transition focus:border-slate-900 dark:border-slate-700 dark:bg-slate-950/40 dark:text-slate-100 dark:focus:border-slate-200"
                   value={form.pipeSizeUnit}
                   onChange={(e) => updateForm("pipeSizeUnit", e.target.value)}
                 >
@@ -367,8 +367,8 @@ export default function CreateJob() {
 
         {/* Items Table */}
         <div className="card-surface overflow-hidden rounded-2xl">
-          <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4">
-            <h2 className="text-sm font-semibold text-slate-700">
+          <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 dark:border-slate-800">
+            <h2 className="text-sm font-semibold text-slate-700 dark:text-slate-200">
               {t("tech.itemsTitle")}
             </h2>
             <button
@@ -387,7 +387,7 @@ export default function CreateJob() {
               {!isAdmin && <col className="w-1/6" />}
               <col className={isAdmin ? "w-1/6" : "w-1/3"} />
             </colgroup>
-            <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+            <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 dark:bg-slate-900/50 dark:text-slate-300">
               <tr>
                 <th className="px-6 py-3">Item</th>
                 {isAdmin && <th className="px-6 py-3">Unit</th>}
@@ -397,12 +397,12 @@ export default function CreateJob() {
               </tr>
             </thead>
 
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                 {items.length === 0 && (
                   <tr>
                     <td
                       colSpan={isAdmin ? 4 : 3}
-                      className="px-6 py-10 text-center text-sm text-slate-500"
+                      className="px-6 py-10 text-center text-sm text-slate-500 dark:text-slate-400"
                     >
                       {t("tech.noItems")}
                     </td>
@@ -430,8 +430,8 @@ export default function CreateJob() {
         </div>
 
         <div className="mt-8 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-          <div className="card-surface rounded-2xl p-6 text-sm text-slate-600 lg:max-w-md">
-            <h3 className="mb-2 text-sm font-semibold text-slate-700">
+          <div className="card-surface rounded-2xl p-6 text-sm text-slate-600 dark:text-slate-300 lg:max-w-md">
+            <h3 className="mb-2 text-sm font-semibold text-slate-700 dark:text-slate-200">
               {t("tech.notesTitle")}
             </h3>
             <p>
@@ -440,7 +440,7 @@ export default function CreateJob() {
           </div>
         </div>
 
-        <footer className="mt-auto border-t border-slate-200 bg-white px-6 py-4 text-xs text-slate-500">
+        <footer className="mt-auto border-t border-slate-200 bg-white px-6 py-4 text-xs text-slate-500 dark:border-slate-800 dark:bg-[var(--ui-card)] dark:text-slate-400">
           <div className="flex flex-col items-center justify-between gap-2 text-center sm:flex-row sm:text-left">
             <div>Developer: Mohamed Said Shango</div>
             <div>Location: UDOM, Dodoma</div>
