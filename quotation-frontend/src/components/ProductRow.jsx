@@ -92,7 +92,7 @@ export default function ProductRow({
     <tr className="bg-transparent">
       <td className="px-6 py-3">
         <div className="rounded-xl border border-slate-200/70 bg-white/80 px-3 py-3 dark:border-slate-800 dark:bg-slate-950/20">
-          <label className="text-[11px] font-bold uppercase tracking-wide text-slate-800 dark:text-slate-300">
+          <label className="text-[12px] font-extrabold uppercase tracking-[0.08em] text-slate-900 dark:text-slate-200">
             Item
           </label>
           <input
@@ -162,7 +162,7 @@ export default function ProductRow({
       {isAdmin && (
         <td className="px-6 py-3">
           <div className="rounded-xl border border-slate-200/70 bg-white/80 px-3 py-3 dark:border-slate-800 dark:bg-slate-950/20">
-            <label className="text-[11px] font-bold uppercase tracking-wide text-slate-800 dark:text-slate-300">
+            <label className="text-[12px] font-extrabold uppercase tracking-[0.08em] text-slate-900 dark:text-slate-200">
               Unit
             </label>
             <div className="mt-2 border-b border-slate-200 pb-2 text-sm text-slate-800 dark:border-slate-700 dark:text-slate-100">
@@ -175,7 +175,7 @@ export default function ProductRow({
       {!isAdmin && (
         <td className="px-6 py-3">
           <div className="rounded-xl border border-slate-200/70 bg-white/80 px-3 py-3 dark:border-slate-800 dark:bg-slate-950/20">
-            <label className="text-[11px] font-bold uppercase tracking-wide text-slate-800 dark:text-slate-300">
+            <label className="text-[12px] font-extrabold uppercase tracking-[0.08em] text-slate-900 dark:text-slate-200">
               Unit
             </label>
             <input
@@ -191,7 +191,7 @@ export default function ProductRow({
       {isAdmin && (
         <td className="px-6 py-3">
           <div className="rounded-xl border border-slate-200/70 bg-white/80 px-3 py-3 dark:border-slate-800 dark:bg-slate-950/20">
-            <label className="text-[11px] font-bold uppercase tracking-wide text-slate-800 dark:text-slate-300">
+            <label className="text-[12px] font-extrabold uppercase tracking-[0.08em] text-slate-900 dark:text-slate-200">
               Price (VAT)
             </label>
             <div className="mt-2 border-b border-slate-200 pb-2 text-right text-sm text-slate-800 dark:border-slate-700 dark:text-slate-100">
@@ -204,7 +204,7 @@ export default function ProductRow({
       <td className="px-6 py-3">
         <div className="flex justify-end">
           <div className="w-full max-w-[140px] rounded-xl border border-slate-200/70 bg-white/80 px-3 py-3 dark:border-slate-800 dark:bg-slate-950/20">
-            <label className="text-[11px] font-bold uppercase tracking-wide text-slate-800 dark:text-slate-300">
+            <label className="text-[12px] font-extrabold uppercase tracking-[0.08em] text-slate-900 dark:text-slate-200">
               Qty
             </label>
             <input

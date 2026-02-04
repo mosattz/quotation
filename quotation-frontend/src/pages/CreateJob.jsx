@@ -282,7 +282,7 @@ export default function CreateJob() {
           {/* Google-Forms Style Fields */}
         <div className="mb-8 space-y-4">
             <div className="card-surface rounded-xl px-4 py-4">
-              <label className="text-xs font-bold uppercase tracking-wide text-slate-800 dark:text-slate-200">
+              <label className="text-[13px] font-extrabold uppercase tracking-[0.06em] text-slate-900 dark:text-slate-100">
                 {t("tech.zoneLabel")}<span className="text-rose-500"> *</span>
               </label>
               <select
@@ -303,7 +303,7 @@ export default function CreateJob() {
             </div>
 
             <div className="card-surface rounded-xl px-4 py-4">
-              <label className="text-xs font-bold uppercase tracking-wide text-slate-800 dark:text-slate-200">
+              <label className="text-[13px] font-extrabold uppercase tracking-[0.06em] text-slate-900 dark:text-slate-100">
                 {t("tech.customerLabel")}<span className="text-rose-500"> *</span>
               </label>
               <input
@@ -315,7 +315,7 @@ export default function CreateJob() {
             </div>
 
             <div className="card-surface rounded-xl px-4 py-4">
-              <label className="text-xs font-bold uppercase tracking-wide text-slate-800 dark:text-slate-200">
+              <label className="text-[13px] font-extrabold uppercase tracking-[0.06em] text-slate-900 dark:text-slate-100">
                 {t("tech.distanceLabel")}<span className="text-rose-500"> *</span>
               </label>
               <div className="mt-3 flex items-center gap-3">
@@ -340,7 +340,7 @@ export default function CreateJob() {
             </div>
 
             <div className="card-surface rounded-xl px-4 py-4">
-              <label className="text-xs font-bold uppercase tracking-wide text-slate-800 dark:text-slate-200">
+              <label className="text-[13px] font-extrabold uppercase tracking-[0.06em] text-slate-900 dark:text-slate-100">
                 {t("tech.pipeSizeLabel")}<span className="text-rose-500"> *</span>
               </label>
               <div className="mt-3 flex items-center gap-3">
@@ -387,7 +387,7 @@ export default function CreateJob() {
               {!isAdmin && <col className="w-1/6" />}
               <col className={isAdmin ? "w-1/6" : "w-1/3"} />
             </colgroup>
-            <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-600 dark:bg-slate-900/50 dark:text-slate-300">
+            <thead className="bg-slate-800 text-left text-xs font-bold uppercase tracking-[0.08em] text-slate-100 dark:bg-slate-950 dark:text-slate-200">
               <tr>
                 <th className="px-6 py-3">Item</th>
                 {isAdmin && <th className="px-6 py-3">Unit</th>}
