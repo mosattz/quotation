@@ -43,7 +43,7 @@ export default function Login() {
         <input
           type="email"
           placeholder={t("auth.email")}
-          className="w-full border border-slate-200 p-3 mb-4 rounded-lg"
+          className="w-full rounded-lg border border-slate-300 bg-white p-3 mb-4 text-base text-slate-950 shadow-sm outline-none transition placeholder:text-slate-500 focus:border-slate-950 dark:border-slate-700 dark:bg-slate-950/40 dark:text-slate-50 dark:placeholder:text-slate-400 dark:focus:border-slate-200"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -51,7 +51,7 @@ export default function Login() {
         <input
           type="password"
           placeholder={t("auth.password")}
-          className="w-full border border-slate-200 p-3 mb-2 rounded-lg"
+          className="w-full rounded-lg border border-slate-300 bg-white p-3 mb-2 text-base text-slate-950 shadow-sm outline-none transition placeholder:text-slate-500 focus:border-slate-950 dark:border-slate-700 dark:bg-slate-950/40 dark:text-slate-50 dark:placeholder:text-slate-400 dark:focus:border-slate-200"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
@@ -72,10 +72,10 @@ export default function Login() {
 
         <button
           type="button"
-          onClick={() => navigate("/register")}
-          className="mt-3 w-full rounded-lg border border-slate-200 bg-white/70 p-3 text-sm text-slate-700 transition hover:bg-white"
+          onClick={() => navigate("/technician")}
+          className="mt-3 w-full rounded-lg border border-slate-300 bg-white p-3 text-sm font-semibold text-slate-900 shadow-sm transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-950/40 dark:text-slate-100 dark:hover:bg-slate-900/60"
         >
-          {t("common.registerTechnician")}
+          {t("landing.goToTechnician")}
         </button>
       </form>
     </div>
