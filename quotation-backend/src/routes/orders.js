@@ -85,6 +85,27 @@ function normalizeNameLoose(value) {
     .trim();
 }
 
+function replaceFractionsWithDecimals(text) {
+  let out = String(text || "");
+  const fmt = (n) => String(n).replace(/\.0+$/, "").replace(/(\.\d*?)0+$/, "$1");
+  // Mixed numbers: "1 1/2" => "1.5"
+  out = out.replace(/(\d+)\s+(\d+)\/(\d+)/g, (_, whole, num, den) => {
+    const w = Number(whole);
+    const n = Number(num);
+    const d = Number(den);
+    if (!Number.isFinite(w) || !Number.isFinite(n) || !Number.isFinite(d) || d === 0) return _;
+    return fmt(w + n / d);
+  });
+  // Fractions: "1/2" => "0.5"
+  out = out.replace(/(\d+)\/(\d+)/g, (_, num, den) => {
+    const n = Number(num);
+    const d = Number(den);
+    if (!Number.isFinite(n) || !Number.isFinite(d) || d === 0) return _;
+    return fmt(n / d);
+  });
+  return out;
+}
+
 function extractSizeTokens(value) {
   // Important: avoid extracting "component numbers" from mixed sizes.
   // Example: "1 1/2" should become ["1.5"], not ["1.5","1","1","2"].
@@ -128,8 +149,8 @@ function extractSizeTokens(value) {
 }
 
 function similarityScore(a, b) {
-  const left = normalizeNameLoose(a);
-  const right = normalizeNameLoose(b);
+  const left = replaceFractionsWithDecimals(normalizeNameLoose(a));
+  const right = replaceFractionsWithDecimals(normalizeNameLoose(b));
   if (!left || !right) return 0;
   if (left === right) return 1;
   const bigrams = (text) => {
