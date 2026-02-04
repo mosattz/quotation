@@ -106,6 +106,14 @@ export default function Dashboard() {
       maximumFractionDigits: 2,
     });
 
+  const formatTechnicianEmail = (email) => {
+    const value = String(email || "").trim();
+    if (!value) return "—";
+    // Technicians can submit orders without accounts; backend may create a "shadow" user record.
+    if (value.endsWith("@quotation.local")) return "—";
+    return value;
+  };
+
   const applyFilters = async () => {
     setActiveTechnician(null);
     setFilterLoading(true);
@@ -877,7 +885,7 @@ export default function Dashboard() {
                             {tech.name || "—"}
                           </td>
                           <td className="px-6 py-3 whitespace-nowrap">
-                            {tech.email || "—"}
+                            {formatTechnicianEmail(tech.email)}
                           </td>
                           <td className="px-6 py-3 whitespace-nowrap">
                             {tech.phone || "—"}

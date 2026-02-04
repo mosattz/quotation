@@ -1,6 +1,8 @@
 import express from "express";
 import pool from "../db.js";
 import { optionalAuth, requireAdmin, requireAuth, requireRoles } from "../middleware/auth.js";
+import crypto from "crypto";
+import bcrypt from "bcryptjs";
 const router = express.Router();
 
 function toNumber(value) {
@@ -56,6 +58,53 @@ function sanitizeItems(items) {
         }))
         .filter((item) => item.qty > 0 && item.unit)
     : [];
+}
+
+async function ensureTechnicianUserId(pool, technicianName) {
+  const name = String(technicianName || "").trim();
+  if (!name) return null;
+
+  // Try to find by name (case-insensitive). This keeps "same person, same name" stable.
+  const normalized = name.toLowerCase();
+  const [existing] = await pool.query(
+    `SELECT id
+     FROM users
+     WHERE role = 'technician' AND LOWER(name) = ?
+     LIMIT 1`,
+    [normalized]
+  );
+  if (existing.length) return existing[0].id;
+
+  // Create a "shadow" technician user so:
+  // - orders.technician_id is always set
+  // - admin technicians list works without technician login/registration
+  const slug = normalized
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 30) || "tech";
+  const hash = crypto.createHash("sha1").update(normalized).digest("hex").slice(0, 10);
+  const email = `tech+${slug}-${hash}@quotation.local`;
+  const passwordHash = bcrypt.hashSync(crypto.randomBytes(32).toString("hex"), 10);
+
+  try {
+    const [insert] = await pool.query(
+      `INSERT INTO users (name, email, password, role)
+       VALUES (?, ?, ?, 'technician')`,
+      [name, email, passwordHash]
+    );
+    return insert.insertId;
+  } catch (error) {
+    // If the email collided (unlikely), re-fetch by name.
+    const [fallback] = await pool.query(
+      `SELECT id
+       FROM users
+       WHERE role = 'technician' AND LOWER(name) = ?
+       LIMIT 1`,
+      [normalized]
+    );
+    if (fallback.length) return fallback[0].id;
+    throw error;
+  }
 }
 
 async function logAudit({ orderId, action, user, before, after }) {
@@ -345,7 +394,7 @@ router.get("/", requireAuth, requireAdmin, async (req, res) => {
          o.distance,
          o.pipe_size,
          o.items,
-         u.name AS technician_name
+         COALESCE(u.name, o.technician_name) AS technician_name
        FROM orders o
        LEFT JOIN users u ON u.id = o.technician_id
        ${whereClause}
@@ -441,12 +490,13 @@ router.post("/", optionalAuth, async (req, res) => {
   }
 
   try {
+    const technicianId = req.user?.id || (await ensureTechnicianUserId(pool, resolvedTechnicianName));
     const [result] = await pool.query(
       `INSERT INTO orders 
          (technician_id, technician_name, zone, customer_name, distance, pipe_size, items, created_at)
        VALUES (?, ?, ?, ?, ?, ?, ?, NOW())`,
       [
-        req.user?.id || null,
+        technicianId,
         resolvedTechnicianName,
         zone,
         customerName,
