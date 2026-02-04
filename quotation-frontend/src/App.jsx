@@ -29,6 +29,8 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Static-site hosts sometimes keep /index.html in the URL; normalize it. */}
+        <Route path="/index.html" element={<Navigate to="/" replace />} />
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route
