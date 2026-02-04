@@ -32,11 +32,11 @@ export default function Landing() {
         <div className="sticky top-0 z-40 -mx-5 bg-slate-100/90 px-5 pb-4 pt-4 backdrop-blur supports-[backdrop-filter]:bg-slate-100/75 md:-mx-8 md:px-8 lg:-mx-10 lg:px-10 2xl:-mx-12 2xl:px-12">
           <header className="flex items-center justify-between gap-4 rounded-3xl border border-slate-200 bg-white px-4 py-4 shadow-sm sm:px-6 sm:py-6">
             <div className="flex min-w-0 items-center gap-3">
-            <div className="h-10 w-10 shrink-0 overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-200">
+            <div className="h-11 w-11 shrink-0 overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-200">
               <img
                 src="/images/logo-q.png"
                 alt="Quotation System"
-                className="h-full w-full object-contain p-1"
+                className="h-full w-full object-contain p-0 scale-150 origin-center drop-shadow-sm"
                 loading="eager"
               />
             </div>
