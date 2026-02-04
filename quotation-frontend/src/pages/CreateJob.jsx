@@ -183,7 +183,11 @@ export default function CreateJob() {
             </button>
             <button
               onClick={handleLogout}
-              className="flex-1 rounded-lg border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-slate-800 dark:bg-[var(--ui-card)] dark:text-slate-200 dark:hover:bg-slate-900 md:w-full md:text-left"
+              className={`flex-1 rounded-lg px-4 py-2 text-xs font-semibold shadow-sm transition md:w-full md:text-left ${
+                authed
+                  ? "border border-slate-300 bg-white text-slate-900 hover:bg-slate-50 dark:border-slate-800 dark:bg-[var(--ui-card)] dark:text-slate-100 dark:hover:bg-slate-900"
+                  : "bg-emerald-700 text-white hover:bg-emerald-800"
+              }`}
             >
               {authed ? t("common.logout") : t("common.login")}
             </button>
