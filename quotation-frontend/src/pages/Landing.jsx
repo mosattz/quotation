@@ -29,28 +29,28 @@ export default function Landing() {
   return (
     <div className="min-h-screen w-screen bg-slate-100">
       <div className="flex min-h-screen flex-col px-5 py-8 md:px-8 lg:px-10 2xl:px-12">
-        <header className="flex flex-col gap-4 rounded-3xl border border-slate-200 bg-white px-6 py-6 shadow-sm md:flex-row md:items-center md:justify-between">
-          <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-2xl bg-emerald-700 shadow-sm" />
-            <div>
-              <div className="text-sm font-semibold text-slate-900">
+        <header className="flex items-center justify-between gap-4 rounded-3xl border border-slate-200 bg-white px-4 py-4 shadow-sm sm:px-6 sm:py-6">
+          <div className="flex min-w-0 items-center gap-3">
+            <div className="h-10 w-10 shrink-0 rounded-2xl bg-emerald-700 shadow-sm" />
+            <div className="min-w-0">
+              <div className="truncate text-sm font-semibold text-slate-900">
                 Quotation System
               </div>
-              <div className="text-xs text-slate-500">
+              <div className="truncate text-[11px] text-slate-500 sm:text-xs">
                 Technician orders • Admin review • PDF / Excel quotations
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+          <div className="flex shrink-0 items-center gap-2">
             <Link
               to="/login"
-              className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
+              className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 sm:px-4 sm:text-sm"
             >
               Login
             </Link>
             <Link
               to="/register"
-              className="rounded-xl bg-emerald-700 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-800"
+              className="rounded-xl bg-emerald-700 px-3 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-emerald-800 sm:px-4 sm:text-sm"
             >
               Register Technician
             </Link>
