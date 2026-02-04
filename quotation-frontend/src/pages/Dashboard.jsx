@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../components/Spinner";
-import LanguageToggle from "../components/LanguageToggle";
 import { apiDelete, apiGet, apiPut } from "../api/api";
 import { clearAuth } from "../utils/auth";
 import { useI18n } from "../i18n/i18n";
@@ -14,7 +13,7 @@ import {
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  const { t } = useI18n();
+  const { t, lang, setLang } = useI18n();
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState("orders");
@@ -41,6 +40,7 @@ export default function Dashboard() {
   const [editSaving, setEditSaving] = useState(false);
   const [filterLoading, setFilterLoading] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
+  const [settings, setSettings] = useState({ lang: "sw" });
 
   const buildQuery = (query) => {
     const params = new URLSearchParams();
@@ -266,6 +266,10 @@ export default function Dashboard() {
     await fetchOrders({});
   };
 
+  useEffect(() => {
+    setSettings({ lang });
+  }, [lang]);
+
   return (
     <div className="min-h-screen w-screen bg-slate-100">
       <div className="flex min-h-screen flex-col md:flex-row">
@@ -277,9 +281,6 @@ export default function Dashboard() {
             <p className="mt-1 text-xs text-slate-500">
               {t("admin.subtitle")}
             </p>
-            <div className="mt-4">
-              <LanguageToggle compact />
-            </div>
           </div>
           <nav className="flex flex-row gap-2 md:flex-col">
             <button
@@ -306,6 +307,16 @@ export default function Dashboard() {
               {t("admin.techTab")}
             </button>
             <button
+              onClick={() => setTab("settings")}
+              className={`flex-1 rounded-lg px-4 py-2 text-xs font-semibold transition md:w-full md:text-left ${
+                tab === "settings"
+                  ? "bg-emerald-700 text-white shadow-sm"
+                  : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+              }`}
+            >
+              {t("settings.title")}
+            </button>
+            <button
               onClick={handleLogout}
               className="flex-1 rounded-lg border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 md:w-full md:text-left"
             >
@@ -317,14 +328,55 @@ export default function Dashboard() {
         <main className="flex min-h-screen flex-1 flex-col px-6 py-8">
           <div className="mb-6">
             <h2 className="text-2xl font-semibold text-slate-900">
-              {tab === "orders" ? t("admin.ordersTab") : t("admin.techTab")}
+              {tab === "orders"
+                ? t("admin.ordersTab")
+                : tab === "technicians"
+                  ? t("admin.techTab")
+                  : t("settings.title")}
             </h2>
             <p className="mt-1 text-sm text-slate-500">
-              {tab === "orders"
-                ? t("admin.subtitle")
-                : t("admin.subtitle")}
+              {tab === "settings" ? t("settings.subtitle") : t("admin.subtitle")}
             </p>
           </div>
+
+        {tab === "settings" && (
+          <div className="card-surface rounded-2xl p-6">
+            <div className="grid gap-4 md:grid-cols-2">
+              <div>
+                <label className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
+                  {t("common.language")}
+                </label>
+                <p className="mt-2 text-sm text-slate-600">
+                  {t("settings.languageHelp")}
+                </p>
+                <div className="mt-4 inline-flex rounded-xl border border-slate-200 bg-white p-1 shadow-sm">
+                  <button
+                    type="button"
+                    onClick={() => setLang("sw")}
+                    className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${
+                      settings.lang === "sw"
+                        ? "bg-emerald-700 text-white"
+                        : "text-slate-700 hover:bg-slate-100"
+                    }`}
+                  >
+                    {t("common.swahili")}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setLang("en")}
+                    className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${
+                      settings.lang === "en"
+                        ? "bg-emerald-700 text-white"
+                        : "text-slate-700 hover:bg-slate-100"
+                    }`}
+                  >
+                    {t("common.english")}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {tab === "orders" && (
           <div className="mb-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
@@ -357,7 +409,7 @@ export default function Dashboard() {
           </div>
         )}
 
-        {tab === "orders" && (
+        {tab !== "settings" && tab === "orders" && (
           <div className="card-surface mb-4 rounded-2xl p-5">
             <div className="grid gap-4 lg:grid-cols-6">
               <div className="lg:col-span-2">
@@ -472,6 +524,7 @@ export default function Dashboard() {
           </div>
         )}
 
+        {tab !== "settings" && (
         <div className="card-surface overflow-hidden rounded-2xl">
           <div className="border-b border-slate-200 px-6 py-4">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -841,6 +894,7 @@ export default function Dashboard() {
             </div>
           )}
         </div>
+        )}
 
         <div className="mt-6 text-xs text-slate-500">
           {activeTechnician && (

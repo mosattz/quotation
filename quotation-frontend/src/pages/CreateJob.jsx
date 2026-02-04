@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ProductRow from "../components/ProductRow";
 import Spinner from "../components/Spinner";
-import LanguageToggle from "../components/LanguageToggle";
 import { apiGet, apiPost } from "../api/api";
 import { clearAuth } from "../utils/auth";
 import { useI18n } from "../i18n/i18n";
@@ -11,9 +10,10 @@ const RECENT_KEY = "quotation_recent_items";
 
 export default function CreateJob() {
   const navigate = useNavigate();
-  const { t } = useI18n();
+  const { t, lang, setLang } = useI18n();
   const [items, setItems] = useState([]);
   const isAdmin = false;
+  const [tab, setTab] = useState("order");
   const [form, setForm] = useState({
     zone: "",
     customerName: "",
@@ -97,6 +97,7 @@ export default function CreateJob() {
 
   const handleSave = async () => {
     setStatus({ type: "", message: "" });
+    if (tab !== "order") return;
     const errorMessage = validateForm();
     if (errorMessage) {
       setStatus({ type: "error", message: errorMessage });
@@ -134,15 +135,38 @@ export default function CreateJob() {
             <p className="mt-1 text-xs text-slate-500">
               {t("tech.subtitle")}
             </p>
-            <div className="mt-4">
-              <LanguageToggle compact />
-            </div>
           </div>
           <div className="flex flex-row gap-2 md:flex-col">
             <button
+              type="button"
+              onClick={() => setTab("order")}
+              className={`flex-1 rounded-lg px-4 py-2 text-xs font-semibold transition md:w-full md:text-left ${
+                tab === "order"
+                  ? "bg-emerald-700 text-white shadow-sm"
+                  : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+              }`}
+            >
+              {t("tech.orderDetails")}
+            </button>
+            <button
+              type="button"
+              onClick={() => setTab("settings")}
+              className={`flex-1 rounded-lg px-4 py-2 text-xs font-semibold transition md:w-full md:text-left ${
+                tab === "settings"
+                  ? "bg-emerald-700 text-white shadow-sm"
+                  : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+              }`}
+            >
+              {t("settings.title")}
+            </button>
+            <button
               onClick={handleSave}
-              disabled={submitting}
-              className="flex-1 rounded-lg bg-emerald-700 px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-70 md:w-full md:text-left"
+              disabled={submitting || tab !== "order"}
+              className={`flex-1 rounded-lg px-4 py-2 text-xs font-semibold shadow-sm transition disabled:cursor-not-allowed disabled:opacity-70 md:w-full md:text-left ${
+                tab !== "order"
+                  ? "bg-slate-200 text-slate-500"
+                  : "bg-emerald-700 text-white hover:bg-emerald-800"
+              }`}
             >
               <span className="inline-flex items-center gap-2">
                 {submitting && <Spinner size={14} />}
@@ -161,12 +185,50 @@ export default function CreateJob() {
         <main className="flex min-h-screen flex-1 flex-col px-6 py-8">
           <div className="mb-6">
             <h2 className="text-2xl font-semibold text-slate-900">
-              {t("tech.orderDetails")}
+              {tab === "settings" ? t("settings.title") : t("tech.orderDetails")}
             </h2>
             <p className="mt-1 text-sm text-slate-500">
-              {t("tech.orderDetailsSub")}
+              {tab === "settings" ? t("settings.subtitle") : t("tech.orderDetailsSub")}
             </p>
           </div>
+
+          {tab === "settings" && (
+            <div className="card-surface rounded-2xl p-6">
+              <label className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
+                {t("common.language")}
+              </label>
+              <p className="mt-2 text-sm text-slate-600">
+                {t("settings.languageHelp")}
+              </p>
+              <div className="mt-4 inline-flex rounded-xl border border-slate-200 bg-white p-1 shadow-sm">
+                <button
+                  type="button"
+                  onClick={() => setLang("sw")}
+                  className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${
+                    lang === "sw"
+                      ? "bg-emerald-700 text-white"
+                      : "text-slate-700 hover:bg-slate-100"
+                  }`}
+                >
+                  {t("common.swahili")}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setLang("en")}
+                  className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${
+                    lang === "en"
+                      ? "bg-emerald-700 text-white"
+                      : "text-slate-700 hover:bg-slate-100"
+                  }`}
+                >
+                  {t("common.english")}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {tab !== "settings" && (
+            <>
           {status.message && (
             <div
               className={`mb-6 rounded-lg border px-4 py-3 text-sm ${
@@ -350,6 +412,8 @@ export default function CreateJob() {
             </div>
           </div>
         </footer>
+            </>
+          )}
         </main>
       </div>
     </div>

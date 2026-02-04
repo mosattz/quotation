@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiPost } from "../api/api";
 import { setAuth } from "../utils/auth";
-import LanguageToggle from "../components/LanguageToggle";
 import { useI18n } from "../i18n/i18n";
 
 export default function Login() {
@@ -34,9 +33,6 @@ export default function Login() {
         onSubmit={handleSubmit}
         className="card-surface w-full max-w-md rounded-2xl p-8"
       >
-        <div className="mb-4 flex items-center justify-end">
-          <LanguageToggle />
-        </div>
         <h2 className="text-2xl font-bold mb-2 text-center">
           {t("auth.loginTitle")}
         </h2>

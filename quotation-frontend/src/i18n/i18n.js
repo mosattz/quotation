@@ -1,6 +1,7 @@
-import { createContext, createElement, useContext, useMemo, useState } from "react";
+import { createContext, createElement, useContext, useEffect, useMemo, useState } from "react";
+import { getAuthUser } from "../utils/auth";
 
-const STORAGE_KEY = "quotation_lang";
+const STORAGE_KEY = "quotation.lang";
 
 const translations = {
   sw: {
@@ -161,6 +162,11 @@ const translations = {
     "tech.noItems": "Hakuna bidhaa bado. Bonyeza “Ongeza Bidhaa” kuanza.",
     "tech.notesTitle": "Maelezo",
     "tech.notesBody": "Ongeza bidhaa zote muhimu kabla ya kuwasilisha.",
+
+    // Settings
+    "settings.title": "Mipangilio",
+    "settings.subtitle": "Badilisha mipangilio ya akaunti yako.",
+    "settings.languageHelp": "Chagua lugha utakayotumia kwenye mfumo huu.",
   },
   en: {
     // Common
@@ -320,6 +326,11 @@ const translations = {
     "tech.noItems": "No items yet. Click “Add Item” to get started.",
     "tech.notesTitle": "Notes",
     "tech.notesBody": "Add all required items for the job before submitting.",
+
+    // Settings
+    "settings.title": "Settings",
+    "settings.subtitle": "Manage your preferences.",
+    "settings.languageHelp": "Choose the language used across the system.",
   },
 };
 
@@ -329,8 +340,11 @@ function interpolate(template, vars) {
 }
 
 function getInitialLang() {
+  const user = getAuthUser();
+  const userKey = user?.id ? `user:${user.id}` : user?.email ? `user:${user.email}` : "guest";
+  const key = `${STORAGE_KEY}:${userKey}`;
   try {
-    const stored = localStorage.getItem(STORAGE_KEY);
+    const stored = localStorage.getItem(key);
     if (stored === "en" || stored === "sw") return stored;
   } catch {
     // ignore
@@ -347,11 +361,38 @@ const I18nContext = createContext({
 export function I18nProvider({ children }) {
   const [lang, setLangState] = useState(getInitialLang);
 
+  useEffect(() => {
+    const syncFromStorage = () => {
+      const user = getAuthUser();
+      const userKey = user?.id
+        ? `user:${user.id}`
+        : user?.email
+          ? `user:${user.email}`
+          : "guest";
+      const key = `${STORAGE_KEY}:${userKey}`;
+      try {
+        const stored = localStorage.getItem(key);
+        const next = stored === "en" || stored === "sw" ? stored : "sw";
+        setLangState(next);
+      } catch {
+        setLangState("sw");
+      }
+    };
+
+    // Initial sync and on auth change.
+    syncFromStorage();
+    window.addEventListener("quotation:auth", syncFromStorage);
+    return () => window.removeEventListener("quotation:auth", syncFromStorage);
+  }, []);
+
   const setLang = (next) => {
+    const user = getAuthUser();
+    const userKey = user?.id ? `user:${user.id}` : user?.email ? `user:${user.email}` : "guest";
+    const key = `${STORAGE_KEY}:${userKey}`;
     const value = next === "en" ? "en" : "sw";
     setLangState(value);
     try {
-      localStorage.setItem(STORAGE_KEY, value);
+      localStorage.setItem(key, value);
     } catch {
       // ignore
     }

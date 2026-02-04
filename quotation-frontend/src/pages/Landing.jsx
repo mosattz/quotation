@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import LanguageToggle from "../components/LanguageToggle";
 import { useI18n } from "../i18n/i18n";
 
 function StepCard({ step, title, children }) {
@@ -53,9 +52,6 @@ export default function Landing() {
               </div>
             </div>
             <div className="flex shrink-0 items-center gap-2">
-              <div className="hidden sm:block">
-                <LanguageToggle />
-              </div>
               <Link
                 to="/login"
                 className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 sm:px-4 sm:text-sm"
@@ -70,9 +66,6 @@ export default function Landing() {
               </Link>
             </div>
           </header>
-          <div className="mt-3 sm:hidden">
-            <LanguageToggle compact />
-          </div>
         </div>
 
         <section className="mt-8 grid gap-6 lg:grid-cols-2">

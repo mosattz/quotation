@@ -2,6 +2,8 @@ const AUTH_KEY = "quotation.auth";
 
 export function setAuth(payload) {
   localStorage.setItem(AUTH_KEY, JSON.stringify(payload));
+  // Notify listeners (e.g., i18n) that the active user has changed.
+  window.dispatchEvent(new Event("quotation:auth"));
 }
 
 export function getAuth() {
@@ -15,6 +17,7 @@ export function getAuth() {
 
 export function clearAuth() {
   localStorage.removeItem(AUTH_KEY);
+  window.dispatchEvent(new Event("quotation:auth"));
 }
 
 export function getAuthToken() {
