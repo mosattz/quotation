@@ -28,7 +28,7 @@ function Tip({ title, children }) {
 export default function Landing() {
   return (
     <div className="min-h-screen w-screen bg-slate-100">
-      <div className="mx-auto flex min-h-screen max-w-6xl flex-col px-5 py-8">
+      <div className="flex min-h-screen flex-col px-5 py-8 md:px-8 lg:px-10 2xl:px-12">
         <header className="flex flex-col gap-4 rounded-3xl border border-slate-200 bg-white px-6 py-6 shadow-sm md:flex-row md:items-center md:justify-between">
           <div className="flex items-center gap-3">
             <div className="h-10 w-10 rounded-2xl bg-emerald-700 shadow-sm" />
@@ -117,7 +117,7 @@ export default function Landing() {
               to get accurate quotations.
             </p>
           </div>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             <Tip title="Use autocomplete">
               Start typing the item name and select from the dropdown. This
               matches the catalog exactly and prevents 0.00 rates.
@@ -192,4 +192,3 @@ export default function Landing() {
     </div>
   );
 }
-
