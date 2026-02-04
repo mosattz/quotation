@@ -60,20 +60,32 @@ function sanitizeItems(items) {
     : [];
 }
 
-async function ensureTechnicianUserId(pool, technicianName) {
+async function ensureTechnicianUserId(pool, technicianName, zone) {
   const name = String(technicianName || "").trim();
   if (!name) return null;
 
   // Try to find by name (case-insensitive). This keeps "same person, same name" stable.
   const normalized = name.toLowerCase();
   const [existing] = await pool.query(
-    `SELECT id
+    `SELECT id, zone
      FROM users
      WHERE role = 'technician' AND LOWER(name) = ?
      LIMIT 1`,
     [normalized]
   );
-  if (existing.length) return existing[0].id;
+  if (existing.length) {
+    const userId = existing[0].id;
+    const existingZone = existing[0].zone ? String(existing[0].zone).trim() : "";
+    const submittedZone = zone ? String(zone).trim() : "";
+    // If the technician has no zone yet, take the submitted one (from the order form).
+    if (!existingZone && submittedZone) {
+      await pool.query(
+        `UPDATE users SET zone = ? WHERE id = ? AND (zone IS NULL OR TRIM(zone) = '')`,
+        [submittedZone, userId]
+      );
+    }
+    return userId;
+  }
 
   // Create a "shadow" technician user so:
   // - orders.technician_id is always set
@@ -86,23 +98,35 @@ async function ensureTechnicianUserId(pool, technicianName) {
   const email = `tech+${slug}-${hash}@quotation.local`;
   const passwordHash = bcrypt.hashSync(crypto.randomBytes(32).toString("hex"), 10);
 
+  const submittedZone = zone ? String(zone).trim() : "";
+
   try {
     const [insert] = await pool.query(
-      `INSERT INTO users (name, email, password, role)
-       VALUES (?, ?, ?, 'technician')`,
-      [name, email, passwordHash]
+      `INSERT INTO users (name, email, password, role, zone)
+       VALUES (?, ?, ?, 'technician', ?)`,
+      [name, email, passwordHash, submittedZone || null]
     );
     return insert.insertId;
   } catch (error) {
     // If the email collided (unlikely), re-fetch by name.
     const [fallback] = await pool.query(
-      `SELECT id
+      `SELECT id, zone
        FROM users
        WHERE role = 'technician' AND LOWER(name) = ?
        LIMIT 1`,
       [normalized]
     );
-    if (fallback.length) return fallback[0].id;
+    if (fallback.length) {
+      const userId = fallback[0].id;
+      const existingZone = fallback[0].zone ? String(fallback[0].zone).trim() : "";
+      if (!existingZone && submittedZone) {
+        await pool.query(
+          `UPDATE users SET zone = ? WHERE id = ? AND (zone IS NULL OR TRIM(zone) = '')`,
+          [submittedZone, userId]
+        );
+      }
+      return userId;
+    }
     throw error;
   }
 }
@@ -490,7 +514,9 @@ router.post("/", optionalAuth, async (req, res) => {
   }
 
   try {
-    const technicianId = req.user?.id || (await ensureTechnicianUserId(pool, resolvedTechnicianName));
+    const technicianId =
+      req.user?.id ||
+      (await ensureTechnicianUserId(pool, resolvedTechnicianName, zone));
     const [result] = await pool.query(
       `INSERT INTO orders 
          (technician_id, technician_name, zone, customer_name, distance, pipe_size, items, created_at)

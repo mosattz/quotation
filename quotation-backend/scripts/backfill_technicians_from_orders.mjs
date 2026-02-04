@@ -23,7 +23,7 @@ function buildSslOptions() {
   return ca ? { ca, rejectUnauthorized: true } : { rejectUnauthorized: true };
 }
 
-async function ensureTechnicianUser(conn, technicianName) {
+async function ensureTechnicianUser(conn, technicianName, zone) {
   const name = String(technicianName || "").trim();
   if (!name) return null;
 
@@ -35,7 +35,17 @@ async function ensureTechnicianUser(conn, technicianName) {
      LIMIT 1`,
     [normalized]
   );
-  if (existing.length) return { id: existing[0].id, created: false };
+  if (existing.length) {
+    const userId = existing[0].id;
+    const submittedZone = zone ? String(zone).trim() : "";
+    if (submittedZone) {
+      await conn.query(
+        `UPDATE users SET zone = ? WHERE id = ? AND (zone IS NULL OR TRIM(zone) = '')`,
+        [submittedZone, userId]
+      );
+    }
+    return { id: userId, created: false };
+  }
 
   const slug =
     normalized
@@ -45,11 +55,12 @@ async function ensureTechnicianUser(conn, technicianName) {
   const hash = crypto.createHash("sha1").update(normalized).digest("hex").slice(0, 10);
   const email = `tech+${slug}-${hash}@quotation.local`;
   const passwordHash = bcrypt.hashSync(crypto.randomBytes(32).toString("hex"), 10);
+  const submittedZone = zone ? String(zone).trim() : "";
 
   const [result] = await conn.query(
-    `INSERT INTO users (name, email, password, role)
-     VALUES (?, ?, ?, 'technician')`,
-    [name, email, passwordHash]
+    `INSERT INTO users (name, email, password, role, zone)
+     VALUES (?, ?, ?, 'technician', ?)`,
+    [name, email, passwordHash, submittedZone || null]
   );
   return { id: result.insertId, created: true };
 }
@@ -73,9 +84,14 @@ async function main() {
   });
 
   const [names] = await conn.query(
-    `SELECT DISTINCT technician_name AS name
+    `SELECT 
+       technician_name AS name,
+       SUBSTRING_INDEX(GROUP_CONCAT(zone ORDER BY created_at DESC SEPARATOR ','), ',', 1) AS zone
      FROM orders
-     WHERE technician_id IS NULL AND technician_name IS NOT NULL AND TRIM(technician_name) <> ''`
+     WHERE technician_id IS NULL
+       AND technician_name IS NOT NULL
+       AND TRIM(technician_name) <> ''
+     GROUP BY technician_name`
   );
 
   let ensured = 0;
@@ -85,7 +101,7 @@ async function main() {
   for (const row of names) {
     const name = String(row.name || "").trim();
     if (!name) continue;
-    const ensuredUser = await ensureTechnicianUser(conn, name);
+    const ensuredUser = await ensureTechnicianUser(conn, name, row.zone);
     if (!ensuredUser) continue;
     ensured += 1;
     if (ensuredUser.created) created += 1;
