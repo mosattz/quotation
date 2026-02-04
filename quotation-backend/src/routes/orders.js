@@ -86,38 +86,44 @@ function normalizeNameLoose(value) {
 }
 
 function extractSizeTokens(value) {
-  const cleaned = normalizeName(value).replace(/["']/g, "");
+  // Important: avoid extracting "component numbers" from mixed sizes.
+  // Example: "1 1/2" should become ["1.5"], not ["1.5","1","1","2"].
+  let cleaned = normalizeName(value).replace(/["']/g, "");
   const sizes = new Set();
 
-  // Mixed numbers like "1 1/2" => 1.5
-  for (const match of cleaned.matchAll(/(\d+)\s+(\d+)\/(\d+)/g)) {
-    const whole = Number(match[1]);
-    const num = Number(match[2]);
-    const den = Number(match[3]);
-    if (Number.isFinite(whole) && Number.isFinite(num) && Number.isFinite(den) && den !== 0) {
-      const val = whole + num / den;
-      sizes.add(String(val).replace(/\.0+$/, ""));
-    }
-  }
+  const addNumber = (num) => {
+    if (!Number.isFinite(num)) return;
+    const text = String(num).replace(/\.0+$/, "");
+    if (text) sizes.add(text);
+  };
 
-  // Fractions like "1/2" => 0.5
-  for (const match of cleaned.matchAll(/(\d+)\/(\d+)/g)) {
-    const num = Number(match[1]);
-    const den = Number(match[2]);
-    if (Number.isFinite(num) && Number.isFinite(den) && den !== 0) {
-      const val = num / den;
-      sizes.add(String(val).replace(/\.0+$/, ""));
+  // 1) Mixed numbers like "1 1/2" => 1.5 (strip from string after parsing)
+  cleaned = cleaned.replace(/(\d+)\s+(\d+)\/(\d+)/g, (_, whole, num, den) => {
+    const w = Number(whole);
+    const n = Number(num);
+    const d = Number(den);
+    if (Number.isFinite(w) && Number.isFinite(n) && Number.isFinite(d) && d !== 0) {
+      addNumber(w + n / d);
     }
-  }
+    return " ";
+  });
 
-  // Plain numbers / decimals like "2" or "1.5"
+  // 2) Fractions like "1/2" => 0.5 (strip from string after parsing)
+  cleaned = cleaned.replace(/(\d+)\/(\d+)/g, (_, num, den) => {
+    const n = Number(num);
+    const d = Number(den);
+    if (Number.isFinite(n) && Number.isFinite(d) && d !== 0) {
+      addNumber(n / d);
+    }
+    return " ";
+  });
+
+  // 3) Decimals / integers like "2" or "1.5"
   for (const match of cleaned.matchAll(/\d+(?:\.\d+)?/g)) {
-    const token = match[0];
-    if (!token) continue;
-    sizes.add(token.replace(/^0+/, "") || "0");
+    const num = Number(match[0]);
+    addNumber(num);
   }
 
-  sizes.delete("");
   return Array.from(sizes);
 }
 
