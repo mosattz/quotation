@@ -134,7 +134,7 @@ export default function CreateJob() {
             <h1 className="text-lg font-semibold text-[color:var(--ui-text)]">
               {t("tech.title")}
             </h1>
-            <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+            <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">
               {t("tech.subtitle")}
             </p>
           </div>
@@ -189,7 +189,7 @@ export default function CreateJob() {
             <h2 className="text-2xl font-semibold text-[color:var(--ui-text)]">
               {tab === "settings" ? t("settings.title") : t("tech.orderDetails")}
             </h2>
-            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+            <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
               {tab === "settings" ? t("settings.subtitle") : t("tech.orderDetailsSub")}
             </p>
           </div>
@@ -387,7 +387,7 @@ export default function CreateJob() {
               {!isAdmin && <col className="w-1/6" />}
               <col className={isAdmin ? "w-1/6" : "w-1/3"} />
             </colgroup>
-            <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 dark:bg-slate-900/50 dark:text-slate-300">
+            <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-600 dark:bg-slate-900/50 dark:text-slate-300">
               <tr>
                 <th className="px-6 py-3">Item</th>
                 {isAdmin && <th className="px-6 py-3">Unit</th>}
@@ -402,7 +402,7 @@ export default function CreateJob() {
                   <tr>
                     <td
                       colSpan={isAdmin ? 4 : 3}
-                      className="px-6 py-10 text-center text-sm text-slate-500 dark:text-slate-400"
+                      className="px-6 py-10 text-center text-sm text-slate-600 dark:text-slate-400"
                     >
                       {t("tech.noItems")}
                     </td>
@@ -430,8 +430,8 @@ export default function CreateJob() {
         </div>
 
         <div className="mt-8 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-          <div className="card-surface rounded-2xl p-6 text-sm text-slate-600 dark:text-slate-300 lg:max-w-md">
-            <h3 className="mb-2 text-sm font-semibold text-slate-700 dark:text-slate-200">
+          <div className="card-surface rounded-2xl p-6 text-sm text-slate-700 dark:text-slate-300 lg:max-w-md">
+            <h3 className="mb-2 text-sm font-semibold text-slate-800 dark:text-slate-200">
               {t("tech.notesTitle")}
             </h3>
             <p>
@@ -440,7 +440,7 @@ export default function CreateJob() {
           </div>
         </div>
 
-        <footer className="mt-auto border-t border-slate-200 bg-white px-6 py-4 text-xs text-slate-500 dark:border-slate-800 dark:bg-[var(--ui-card)] dark:text-slate-400">
+        <footer className="mt-auto border-t border-slate-200 bg-white px-6 py-4 text-xs text-slate-600 dark:border-slate-800 dark:bg-[var(--ui-card)] dark:text-slate-400">
           <div className="flex flex-col items-center justify-between gap-2 text-center sm:flex-row sm:text-left">
             <div>Developer: Mohamed Said Shango</div>
             <div>Location: UDOM, Dodoma</div>
