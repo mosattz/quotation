@@ -1,10 +1,9 @@
 import express from "express";
 import pool from "../db.js";
-import { requireAuth } from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.get("/", requireAuth, async (req, res) => {
+router.get("/", async (req, res) => {
   const query = String(req.query?.query || "").trim();
   if (!query) {
     return res.json([]);

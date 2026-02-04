@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import ProductRow from "../components/ProductRow";
 import Spinner from "../components/Spinner";
 import { apiGet, apiPost } from "../api/api";
-import { clearAuth } from "../utils/auth";
+import { clearAuth, isAuthed } from "../utils/auth";
 import { useI18n } from "../i18n/i18n";
 import { useTheme } from "../theme/theme";
 
@@ -13,10 +13,12 @@ export default function CreateJob() {
   const navigate = useNavigate();
   const { t, lang, setLang } = useI18n();
   const { theme, setTheme } = useTheme();
+  const authed = isAuthed();
   const [items, setItems] = useState([]);
   const isAdmin = false;
   const [tab, setTab] = useState("order");
   const [form, setForm] = useState({
+    technicianName: "",
     zone: "",
     customerName: "",
     distanceValue: "",
@@ -44,7 +46,9 @@ export default function CreateJob() {
   };
 
   const handleLogout = () => {
-    clearAuth();
+    if (authed) {
+      clearAuth();
+    }
     navigate("/login", { replace: true });
   };
 
@@ -67,6 +71,7 @@ export default function CreateJob() {
 
   const validateForm = () => {
     if (
+      !form.technicianName ||
       !form.zone ||
       !form.customerName ||
       !form.distanceValue ||
@@ -111,6 +116,7 @@ export default function CreateJob() {
       const distance = `${form.distanceValue} ${form.distanceUnit}`.trim();
       const pipeSize = `${form.pipeSizeValue} ${form.pipeSizeUnit}`.trim();
       await apiPost("/api/orders", {
+        technicianName: form.technicianName,
         zone: form.zone,
         customerName: form.customerName,
         distance,
@@ -179,7 +185,7 @@ export default function CreateJob() {
               onClick={handleLogout}
               className="flex-1 rounded-lg border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-slate-800 dark:bg-[var(--ui-card)] dark:text-slate-200 dark:hover:bg-slate-900 md:w-full md:text-left"
             >
-              {t("common.logout")}
+              {authed ? t("common.logout") : t("common.login")}
             </button>
           </div>
         </aside>
@@ -281,6 +287,18 @@ export default function CreateJob() {
 
           {/* Google-Forms Style Fields */}
         <div className="mb-8 space-y-4">
+            <div className="card-surface rounded-xl px-4 py-4">
+              <label className="text-[13px] font-extrabold uppercase tracking-[0.06em] text-slate-900 dark:text-slate-100">
+                {t("tech.technicianNameLabel")}
+                <span className="text-rose-500"> *</span>
+              </label>
+              <input
+                className="mt-3 w-full border-b border-slate-200 bg-transparent pb-2 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-slate-900 dark:border-slate-700 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-slate-200"
+                placeholder="Your answer"
+                value={form.technicianName}
+                onChange={(e) => updateForm("technicianName", e.target.value)}
+              />
+            </div>
             <div className="card-surface rounded-xl px-4 py-4">
               <label className="text-[13px] font-extrabold uppercase tracking-[0.06em] text-slate-900 dark:text-slate-100">
                 {t("tech.zoneLabel")}<span className="text-rose-500"> *</span>

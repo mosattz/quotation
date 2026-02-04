@@ -20,6 +20,22 @@ export function requireAuth(req, res, next) {
   }
 }
 
+// Like requireAuth, but does not block the request when there is no/invalid token.
+// Useful for public endpoints that can optionally enrich behavior for authed users.
+export function optionalAuth(req, _res, next) {
+  const header = req.headers.authorization || "";
+  const token = header.startsWith("Bearer ") ? header.slice(7) : null;
+  if (!token) return next();
+  try {
+    if (JWT_SECRET) {
+      req.user = jwt.verify(token, JWT_SECRET);
+    }
+  } catch {
+    // ignore invalid tokens for optional auth
+  }
+  return next();
+}
+
 export function requireAdmin(req, res, next) {
   if (!req.user || req.user.role !== "admin") {
     return res.status(403).json({ error: "Forbidden" });

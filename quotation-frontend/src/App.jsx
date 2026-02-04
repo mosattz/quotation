@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
-import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import CreateJob from "./pages/CreateJob";
 import Landing from "./pages/Landing";
@@ -34,7 +33,6 @@ export default function App() {
         <Route path="/index.html" element={<Navigate to="/" replace />} />
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
         <Route
           path="/dashboard"
           element={<DashboardRedirect />}
@@ -49,11 +47,7 @@ export default function App() {
         />
         <Route
           path="/technician"
-          element={
-            <RequireAuth>
-              <CreateJob />
-            </RequireAuth>
-          }
+          element={<CreateJob />}
         />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

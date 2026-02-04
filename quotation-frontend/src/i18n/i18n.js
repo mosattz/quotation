@@ -12,6 +12,7 @@ const translations = {
     "common.login": "Ingia",
     "common.logout": "Toka",
     "common.registerTechnician": "Sajili Fundi",
+    "common.technician": "Fundi",
     "common.submit": "Wasilisha",
     "common.save": "Hifadhi",
     "common.cancel": "Ghairi",
@@ -69,8 +70,9 @@ const translations = {
       "CHALINZE, MDAULA, MSOGA, LUGOBA, MSATA, KIWANGWA, MBWEWE, MIONO",
     "landing.nextTitle": "Hatua inayofuata",
     "landing.nextBody":
-      "Ingia kama Admin kuona maombi na kupakua nukuu (PDF/Excel), au sajili mafundi kuanza kuwasilisha maombi.",
+      "Ingia kama Admin kuona maombi na kupakua nukuu (PDF/Excel), au nenda kwenye ukurasa wa Fundi kuanza kuwasilisha maombi.",
     "landing.goToLogin": "Nenda kwenye Ingia",
+    "landing.goToTechnician": "Nenda kwa Fundi",
 
     // Auth
     "auth.loginTitle": "Quotation System",
@@ -143,6 +145,7 @@ const translations = {
     // Technician
     "tech.title": "Technician Dashboard",
     "tech.subtitle": "Wasilisha maombi ya wateja kutoka eneo la kazi.",
+    "tech.technicianNameLabel": "Jina la Fundi",
     "tech.orderDetails": "Order Details",
     "tech.orderDetailsSub": "Jaza taarifa za mteja na bidhaa zinazo hitajika.",
     "tech.statusSuccess": "Ombi limewasilishwa.",
@@ -180,6 +183,7 @@ const translations = {
     "common.login": "Login",
     "common.logout": "Logout",
     "common.registerTechnician": "Register Technician",
+    "common.technician": "Technician",
     "common.submit": "Submit",
     "common.save": "Save",
     "common.cancel": "Cancel",
@@ -237,8 +241,9 @@ const translations = {
       "CHALINZE, MDAULA, MSOGA, LUGOBA, MSATA, KIWANGWA, MBWEWE, MIONO",
     "landing.nextTitle": "Next",
     "landing.nextBody":
-      "Login as Admin to review orders and download PDF/Excel quotations, or register technicians to start submitting orders.",
+      "Login as Admin to review orders and download PDF/Excel quotations, or go to Technician to start submitting orders.",
     "landing.goToLogin": "Go to Login",
+    "landing.goToTechnician": "Go to Technician",
 
     // Auth
     "auth.loginTitle": "Quotation System",
@@ -311,6 +316,7 @@ const translations = {
     // Technician
     "tech.title": "Technician Dashboard",
     "tech.subtitle": "Submit customer orders from the field.",
+    "tech.technicianNameLabel": "Technician name",
     "tech.orderDetails": "Order Details",
     "tech.orderDetailsSub": "Fill out customer information and requested items.",
     "tech.statusSuccess": "Order submitted.",

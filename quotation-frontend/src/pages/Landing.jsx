@@ -59,10 +59,10 @@ export default function Landing() {
                 {t("common.login")}
               </Link>
               <Link
-                to="/register"
+                to="/technician"
                 className="rounded-xl bg-emerald-700 px-3 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-emerald-800 sm:px-4 sm:text-sm"
               >
-                {t("common.registerTechnician")}
+                {t("landing.goToTechnician")}
               </Link>
             </div>
           </header>
@@ -157,10 +157,10 @@ export default function Landing() {
                 {t("landing.goToLogin")}
               </Link>
               <Link
-                to="/register"
+                to="/technician"
                 className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
               >
-                {t("common.registerTechnician")}
+                {t("landing.goToTechnician")}
               </Link>
             </div>
           </div>

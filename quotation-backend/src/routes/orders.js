@@ -1,6 +1,6 @@
 import express from "express";
 import pool from "../db.js";
-import { requireAdmin, requireAuth, requireRoles } from "../middleware/auth.js";
+import { optionalAuth, requireAdmin, requireAuth, requireRoles } from "../middleware/auth.js";
 const router = express.Router();
 
 function toNumber(value) {
@@ -355,14 +355,25 @@ router.get("/", requireAuth, requireAdmin, async (req, res) => {
   }
 });
 
-router.post("/", requireAuth, requireRoles(["admin", "technician"]), async (req, res) => {
-  const { zone, customerName, distance, pipeSize, items } = req.body || {};
+router.post("/", optionalAuth, async (req, res) => {
+  const { zone, customerName, distance, pipeSize, items, technicianName } = req.body || {};
 
-  if (!zone || !customerName || !distance || !pipeSize) {
+  const submittedTechnicianName = String(technicianName || "").trim();
+  const resolvedTechnicianName = req.user?.name ? String(req.user.name).trim() : submittedTechnicianName;
+
+  if (!resolvedTechnicianName || !zone || !customerName || !distance || !pipeSize) {
     return res.status(400).json({ error: "Missing required fields" });
   }
-  if (!isNumeric(distance) || !isNumeric(pipeSize)) {
-    return res.status(400).json({ error: "Distance and pipe size must be numeric" });
+  if (resolvedTechnicianName.length > 150) {
+    return res.status(400).json({ error: "Technician name is too long" });
+  }
+  if (String(customerName).trim().length > 150) {
+    return res.status(400).json({ error: "Customer name is too long" });
+  }
+
+  // We store the original string (e.g. "340 m"), but validate that it contains a number.
+  if (parseDistance(distance) <= 0 || parseDistance(pipeSize) <= 0) {
+    return res.status(400).json({ error: "Distance and pipe size must include a number" });
   }
 
   const safeItems = sanitizeItems(items);
@@ -377,7 +388,7 @@ router.post("/", requireAuth, requireRoles(["admin", "technician"]), async (req,
        VALUES (?, ?, ?, ?, ?, ?, ?, NOW())`,
       [
         req.user?.id || null,
-        req.user?.name || null,
+        resolvedTechnicianName,
         zone,
         customerName,
         distance,
