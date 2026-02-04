@@ -91,12 +91,12 @@ export default function ProductRow({
   return (
     <tr className="bg-transparent">
       <td className="px-6 py-3">
-        <div className="rounded-xl border border-slate-200/70 bg-white/80 px-3 py-3 dark:border-slate-800 dark:bg-slate-950/20">
-          <label className="text-[12px] font-extrabold uppercase tracking-[0.08em] text-slate-900 dark:text-slate-200">
+        <div className="rounded-xl border border-slate-300 bg-white px-3 py-3 dark:border-slate-800 dark:bg-slate-950/20">
+          <label className="text-[12px] font-black uppercase tracking-[0.08em] text-slate-950 dark:text-slate-100">
             Item
           </label>
           <input
-            className="mt-2 w-full border-b border-slate-200 bg-transparent pb-2 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-slate-900 dark:border-slate-700 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-slate-200"
+            className="mt-2 w-full border-b border-slate-400 bg-transparent pb-2 text-base text-slate-950 outline-none transition placeholder:text-slate-600 focus:border-slate-950 dark:border-slate-600 dark:text-slate-50 dark:placeholder:text-slate-400 dark:focus:border-slate-200"
             placeholder="Your answer"
             value={nameValue}
             onChange={(e) => handleNameChange(e.target.value)}
@@ -174,12 +174,12 @@ export default function ProductRow({
 
       {!isAdmin && (
         <td className="px-6 py-3">
-          <div className="rounded-xl border border-slate-200/70 bg-white/80 px-3 py-3 dark:border-slate-800 dark:bg-slate-950/20">
-            <label className="text-[12px] font-extrabold uppercase tracking-[0.08em] text-slate-900 dark:text-slate-200">
+          <div className="rounded-xl border border-slate-300 bg-white px-3 py-3 dark:border-slate-800 dark:bg-slate-950/20">
+            <label className="text-[12px] font-black uppercase tracking-[0.08em] text-slate-950 dark:text-slate-100">
               Unit
             </label>
             <input
-              className="mt-2 w-full border-b border-slate-200 bg-transparent pb-2 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-slate-900 dark:border-slate-700 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-slate-200"
+              className="mt-2 w-full border-b border-slate-400 bg-transparent pb-2 text-base text-slate-950 outline-none transition placeholder:text-slate-600 focus:border-slate-950 dark:border-slate-600 dark:text-slate-50 dark:placeholder:text-slate-400 dark:focus:border-slate-200"
               placeholder="e.g. PC, M"
               value={item.unit || ""}
               onChange={(e) => update("unit", e.target.value)}
@@ -203,14 +203,14 @@ export default function ProductRow({
 
       <td className="px-6 py-3">
         <div className="flex justify-end">
-          <div className="w-full max-w-[140px] rounded-xl border border-slate-200/70 bg-white/80 px-3 py-3 dark:border-slate-800 dark:bg-slate-950/20">
-            <label className="text-[12px] font-extrabold uppercase tracking-[0.08em] text-slate-900 dark:text-slate-200">
+          <div className="w-full max-w-[140px] rounded-xl border border-slate-300 bg-white px-3 py-3 dark:border-slate-800 dark:bg-slate-950/20">
+            <label className="text-[12px] font-black uppercase tracking-[0.08em] text-slate-950 dark:text-slate-100">
               Qty
             </label>
             <input
               type="number"
               min="0"
-              className="mt-2 w-full border-b border-slate-200 bg-transparent pb-2 text-right text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-slate-900 dark:border-slate-700 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-slate-200"
+              className="mt-2 w-full border-b border-slate-400 bg-transparent pb-2 text-right text-base text-slate-950 outline-none transition placeholder:text-slate-600 focus:border-slate-950 dark:border-slate-600 dark:text-slate-50 dark:placeholder:text-slate-400 dark:focus:border-slate-200"
               placeholder="0"
               value={item.qty ?? ""}
               onChange={(e) => update("qty", Number(e.target.value))}
