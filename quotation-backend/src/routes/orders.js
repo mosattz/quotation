@@ -231,6 +231,11 @@ async function lookupItem(pool, name) {
   let normalized = normalizeName(name);
   if (!normalized) return null;
 
+  // Normalize catalog strings inside SQL without relying on REGEXP_REPLACE (not available everywhere),
+  // and avoid quote-escaping problems by using CHAR() for quotes.
+  const catalogNorm = (col) =>
+    `LOWER(TRIM(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(${col}, '’',''), '“',''), '”',''), CHAR(34), ''), CHAR(39), ''), '  ', ' '), '  ', ' ')))`;
+
   const [aliasRows] = await pool.query(
     `SELECT canonical_name
      FROM item_aliases
@@ -254,19 +259,19 @@ async function lookupItem(pool, name) {
   const [rows] = await pool.query(
     `SELECT item_name AS name, unit_of_measure AS unit, average_with_vat AS rate
      FROM trans_ocean
-     WHERE LOWER(TRIM(REPLACE(REPLACE(item_name,'  ',' '),'  ',' '))) IN (${placeholders})
+     WHERE ${catalogNorm("item_name")} IN (${placeholders})
      UNION ALL
      SELECT item_name AS name, unit_of_measure AS unit, average_with_vat AS rate
      FROM fitting_average
-     WHERE LOWER(TRIM(REPLACE(REPLACE(item_name,'  ',' '),'  ',' '))) IN (${placeholders})
+     WHERE ${catalogNorm("item_name")} IN (${placeholders})
      UNION ALL
      SELECT description AS name, unit, average_with_vat AS rate
      FROM simba_pipes
-     WHERE LOWER(TRIM(REPLACE(REPLACE(description,'  ',' '),'  ',' '))) IN (${placeholders})
+     WHERE ${catalogNorm("description")} IN (${placeholders})
      UNION ALL
      SELECT description AS name, unit, average_with_vat AS rate
      FROM pipes_average_price
-     WHERE LOWER(TRIM(REPLACE(REPLACE(description,'  ',' '),'  ',' '))) IN (${placeholders})
+     WHERE ${catalogNorm("description")} IN (${placeholders})
      LIMIT 1`,
     [...candidates, ...candidates, ...candidates, ...candidates]
   );
