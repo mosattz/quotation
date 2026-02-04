@@ -298,7 +298,7 @@ export default function CreateJob() {
           <div className="flex flex-col items-center justify-between gap-2 text-center sm:flex-row sm:text-left">
             <div>Developer: Mohamed Said Shango</div>
             <div>Location: UDOM, Dodoma</div>
-            <div>
+            <div className="max-w-full break-words">
               Phone: 0615082570 / 0750690012 · Email:
               mosatgentlemedy@gmail.com / montanafrenv@gmail.com
             </div>

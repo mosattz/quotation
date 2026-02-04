@@ -589,8 +589,8 @@ export default function Dashboard() {
                   </div>
                 </div>
 
-                  <div className="rounded-xl border border-slate-200/60 bg-white/70">
-                    <table className="w-full table-fixed text-sm">
+                  <div className="rounded-xl border border-slate-200/60 bg-white/70 overflow-x-auto">
+                    <table className="min-w-[720px] w-full table-auto text-sm md:table-fixed">
                       <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                         <tr>
                           <th className="px-4 py-3 w-2/5">Item</th>
@@ -606,14 +606,16 @@ export default function Dashboard() {
                             <td className="px-4 py-2 break-words">
                               {item.name || "—"}
                             </td>
-                            <td className="px-4 py-2">{item.unit || "—"}</td>
-                            <td className="px-4 py-2 text-right">
+                            <td className="px-4 py-2 whitespace-nowrap">
+                              {item.unit || "—"}
+                            </td>
+                            <td className="px-4 py-2 text-right whitespace-nowrap">
                               {item.qty || 0}
                             </td>
-                            <td className="px-4 py-2 text-right">
+                            <td className="px-4 py-2 text-right whitespace-nowrap">
                               {formatMoney(item.rate)}
                             </td>
-                            <td className="px-4 py-2 text-right">
+                            <td className="px-4 py-2 text-right whitespace-nowrap">
                               {formatMoney(item.amount)}
                             </td>
                           </tr>
@@ -622,7 +624,7 @@ export default function Dashboard() {
                           <td className="px-4 py-2" colSpan={4}>
                             MATERIAL COST
                           </td>
-                          <td className="px-4 py-2 text-right">
+                          <td className="px-4 py-2 text-right whitespace-nowrap">
                             {formatMoney(job.totals?.materialCost)}
                           </td>
                         </tr>
@@ -630,36 +632,36 @@ export default function Dashboard() {
                           <td className="px-4 py-2">
                             Excavation and backfilling
                           </td>
-                          <td className="px-4 py-2">M</td>
-                          <td className="px-4 py-2 text-right">
+                          <td className="px-4 py-2 whitespace-nowrap">M</td>
+                          <td className="px-4 py-2 text-right whitespace-nowrap">
                             {job.totals?.distanceQty || 0}
                           </td>
-                          <td className="px-4 py-2 text-right">
+                          <td className="px-4 py-2 text-right whitespace-nowrap">
                             {formatMoney(job.totals?.excavationRate)}
                           </td>
-                          <td className="px-4 py-2 text-right">
+                          <td className="px-4 py-2 text-right whitespace-nowrap">
                             {formatMoney(job.totals?.excavationAmount)}
                           </td>
                         </tr>
                         <tr>
                           <td className="px-4 py-2">Labour charges</td>
-                          <td className="px-4 py-2">%</td>
-                          <td className="px-4 py-2 text-right">10</td>
-                          <td className="px-4 py-2 text-right">
+                          <td className="px-4 py-2 whitespace-nowrap">%</td>
+                          <td className="px-4 py-2 text-right whitespace-nowrap">10</td>
+                          <td className="px-4 py-2 text-right whitespace-nowrap">
                             {formatMoney(job.totals?.labourAmount)}
                           </td>
-                          <td className="px-4 py-2 text-right">
+                          <td className="px-4 py-2 text-right whitespace-nowrap">
                             {formatMoney(job.totals?.labourAmount)}
                           </td>
                         </tr>
                         <tr>
                           <td className="px-4 py-2">Supervision charges</td>
-                          <td className="px-4 py-2">%</td>
-                          <td className="px-4 py-2 text-right">15</td>
-                          <td className="px-4 py-2 text-right">
+                          <td className="px-4 py-2 whitespace-nowrap">%</td>
+                          <td className="px-4 py-2 text-right whitespace-nowrap">15</td>
+                          <td className="px-4 py-2 text-right whitespace-nowrap">
                             {formatMoney(job.totals?.supervisionAmount)}
                           </td>
-                          <td className="px-4 py-2 text-right">
+                          <td className="px-4 py-2 text-right whitespace-nowrap">
                             {formatMoney(job.totals?.supervisionAmount)}
                           </td>
                         </tr>
@@ -667,7 +669,7 @@ export default function Dashboard() {
                           <td className="px-4 py-2" colSpan={4}>
                             OTHER CHARGES COST
                           </td>
-                          <td className="px-4 py-2 text-right">
+                          <td className="px-4 py-2 text-right whitespace-nowrap">
                             {formatMoney(job.totals?.otherChargesCost)}
                           </td>
                         </tr>
@@ -675,7 +677,7 @@ export default function Dashboard() {
                           <td className="px-4 py-2" colSpan={4}>
                             GRAND TOTAL
                           </td>
-                          <td className="px-4 py-2 text-right">
+                          <td className="px-4 py-2 text-right whitespace-nowrap">
                             {formatMoney(job.totals?.grandTotal)}
                           </td>
                         </tr>
@@ -760,8 +762,8 @@ export default function Dashboard() {
                 </div>
               )}
               {!technicianLoading && technicians.length > 0 && (
-                <div className="rounded-xl">
-                  <table className="w-full table-fixed text-sm">
+                <div className="rounded-xl overflow-x-auto">
+                  <table className="min-w-[920px] w-full table-auto text-sm md:table-fixed">
                     <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                       <tr>
                         <th className="px-6 py-3 w-1/4">Name</th>
@@ -775,49 +777,51 @@ export default function Dashboard() {
                     <tbody className="divide-y divide-slate-100">
                       {technicians.map((tech) => (
                         <tr key={tech.id}>
-                          <td className="px-6 py-3 break-words">
+                          <td className="px-6 py-3 whitespace-nowrap">
                             {tech.name || "—"}
                           </td>
-                          <td className="px-6 py-3 break-words">
+                          <td className="px-6 py-3 whitespace-nowrap">
                             {tech.email || "—"}
                           </td>
-                          <td className="px-6 py-3 break-words">
+                          <td className="px-6 py-3 whitespace-nowrap">
                             {tech.phone || "—"}
                           </td>
-                          <td className="px-6 py-3 break-words">
+                          <td className="px-6 py-3 whitespace-nowrap">
                             {tech.zone || "—"}
                           </td>
-                          <td className="px-6 py-3 text-right">
+                          <td className="px-6 py-3 text-right whitespace-nowrap">
                             {tech.order_count || 0}
                           </td>
                           <td className="px-6 py-3 text-right">
-                            <button
-                              onClick={() => loadTechnicianProfile(tech)}
-                              className="mr-2 rounded-md border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
-                            >
-                              Profile
-                            </button>
-                            <button
-                              onClick={() => exportTechnicianOrders(tech, "excel")}
-                              className="mr-2 rounded-md border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
-                            >
-                              Excel
-                            </button>
-                            <button
-                              onClick={() => exportTechnicianOrders(tech, "pdf")}
-                              className="mr-2 rounded-md border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
-                            >
-                              PDF
-                            </button>
-                            <button
-                              onClick={() => {
-                                setTab("orders");
-                                loadOrdersForTechnician(tech);
-                              }}
-                              className="rounded-md border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
-                            >
-                              View Orders
-                            </button>
+                            <div className="flex flex-wrap justify-end gap-2">
+                              <button
+                                onClick={() => loadTechnicianProfile(tech)}
+                                className="rounded-md border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
+                              >
+                                Profile
+                              </button>
+                              <button
+                                onClick={() => exportTechnicianOrders(tech, "excel")}
+                                className="rounded-md border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
+                              >
+                                Excel
+                              </button>
+                              <button
+                                onClick={() => exportTechnicianOrders(tech, "pdf")}
+                                className="rounded-md border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
+                              >
+                                PDF
+                              </button>
+                              <button
+                                onClick={() => {
+                                  setTab("orders");
+                                  loadOrdersForTechnician(tech);
+                                }}
+                                className="rounded-md border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
+                              >
+                                View Orders
+                              </button>
+                            </div>
                           </td>
                         </tr>
                       ))}
@@ -1016,7 +1020,7 @@ export default function Dashboard() {
           <div className="flex flex-col items-center justify-between gap-2 text-center sm:flex-row sm:text-left">
             <div>Developer: Mohamed Said Shango</div>
             <div>Location: UDOM, Dodoma</div>
-            <div>
+            <div className="max-w-full break-words">
               Phone: 0615082570 / 0750690012 · Email:
               mosatgentlemedy@gmail.com / montanafrenv@gmail.com
             </div>
