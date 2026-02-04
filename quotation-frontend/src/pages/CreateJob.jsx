@@ -288,7 +288,7 @@ export default function CreateJob() {
           {/* Google-Forms Style Fields */}
         <div className="mb-8 space-y-4">
             <div className="card-surface rounded-xl px-4 py-4">
-              <label className="text-[14px] font-black uppercase tracking-[0.06em] text-slate-950 dark:text-white">
+              <label className="text-[14px] font-black uppercase tracking-[0.06em] text-[color:var(--ui-text)]">
                 {t("tech.technicianNameLabel")}
                 <span className="text-rose-500"> *</span>
               </label>
@@ -300,7 +300,7 @@ export default function CreateJob() {
               />
             </div>
             <div className="card-surface rounded-xl px-4 py-4">
-              <label className="text-[14px] font-black uppercase tracking-[0.06em] text-slate-950 dark:text-white">
+              <label className="text-[14px] font-black uppercase tracking-[0.06em] text-[color:var(--ui-text)]">
                 {t("tech.zoneLabel")}<span className="text-rose-500"> *</span>
               </label>
               <select
@@ -321,7 +321,7 @@ export default function CreateJob() {
             </div>
 
             <div className="card-surface rounded-xl px-4 py-4">
-              <label className="text-[14px] font-black uppercase tracking-[0.06em] text-slate-950 dark:text-white">
+              <label className="text-[14px] font-black uppercase tracking-[0.06em] text-[color:var(--ui-text)]">
                 {t("tech.customerLabel")}<span className="text-rose-500"> *</span>
               </label>
               <input
@@ -333,7 +333,7 @@ export default function CreateJob() {
             </div>
 
             <div className="card-surface rounded-xl px-4 py-4">
-              <label className="text-[14px] font-black uppercase tracking-[0.06em] text-slate-950 dark:text-white">
+              <label className="text-[14px] font-black uppercase tracking-[0.06em] text-[color:var(--ui-text)]">
                 {t("tech.distanceLabel")}<span className="text-rose-500"> *</span>
               </label>
               <div className="mt-3 flex items-center gap-3">
@@ -358,7 +358,7 @@ export default function CreateJob() {
             </div>
 
             <div className="card-surface rounded-xl px-4 py-4">
-              <label className="text-[14px] font-black uppercase tracking-[0.06em] text-slate-950 dark:text-white">
+              <label className="text-[14px] font-black uppercase tracking-[0.06em] text-[color:var(--ui-text)]">
                 {t("tech.pipeSizeLabel")}<span className="text-rose-500"> *</span>
               </label>
               <div className="mt-3 flex items-center gap-3">

@@ -92,7 +92,7 @@ export default function ProductRow({
     <tr className="bg-transparent">
       <td className="px-6 py-3">
         <div className="rounded-xl border border-slate-300 bg-white px-3 py-3 dark:border-slate-800 dark:bg-slate-950/20">
-          <label className="text-[12px] font-black uppercase tracking-[0.08em] text-slate-950 dark:text-slate-100">
+          <label className="text-[12px] font-black uppercase tracking-[0.08em] text-[color:var(--ui-text)]">
             Item
           </label>
           <input
@@ -175,7 +175,7 @@ export default function ProductRow({
       {!isAdmin && (
         <td className="px-6 py-3">
           <div className="rounded-xl border border-slate-300 bg-white px-3 py-3 dark:border-slate-800 dark:bg-slate-950/20">
-            <label className="text-[12px] font-black uppercase tracking-[0.08em] text-slate-950 dark:text-slate-100">
+            <label className="text-[12px] font-black uppercase tracking-[0.08em] text-[color:var(--ui-text)]">
               Unit
             </label>
             <input
@@ -204,7 +204,7 @@ export default function ProductRow({
       <td className="px-6 py-3">
         <div className="flex justify-end">
           <div className="w-full max-w-[140px] rounded-xl border border-slate-300 bg-white px-3 py-3 dark:border-slate-800 dark:bg-slate-950/20">
-            <label className="text-[12px] font-black uppercase tracking-[0.08em] text-slate-950 dark:text-slate-100">
+            <label className="text-[12px] font-black uppercase tracking-[0.08em] text-[color:var(--ui-text)]">
               Qty
             </label>
             <input
